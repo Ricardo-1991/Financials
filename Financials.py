@@ -8,6 +8,7 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from PIL import Image
 import io
 import requests
+from io import BytesIO
 
 # Setup our colours
 color_link = ['#000000', '#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46',
@@ -34,9 +35,9 @@ color_link = ['#000000', '#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46',
 ]
 
 
-club_image_paths = {'América': 'https://github.com/JAmerico1898/Financials/blob/main/America.png',
-              'Athletico': 'https://github.com/JAmerico1898/Financials/blob/main/Athletico.png',
-              'Atlético': 'https://github.com/JAmerico1898/Financials/blob/main/Atletico.png',
+club_image_paths = {'América': 'https://github.com/JAmerico1898/Financials/tree/main/America.png',
+              'Athletico': 'https://raw.githubusercontent.com/JAmerico1898/Financials/tree/main/Athletico.png',
+              'Atlético': 'https://raw.githubusercontent.com/JAmerico1898/Financials/blob/main/Atletico.png',
               'Bahia': 'https://github.com/JAmerico1898/Financials/blob/main/Bahia.png',
               'Botafogo': 'https://github.com/JAmerico1898/Financials/blob/main/Botafogo.png',
               'Corinthians': 'https://github.com/JAmerico1898/Financials/blob/main/Corinthians.png',
@@ -50,9 +51,9 @@ club_image_paths = {'América': 'https://github.com/JAmerico1898/Financials/blob
               'Grêmio': 'https://github.com/JAmerico1898/Financials/blob/main/Gremio.png',
               'Internacional': 'https://github.com/JAmerico1898/Financials/blob/main/Internacional.png',
               'Palmeiras': 'https://github.com/JAmerico1898/Financials/blob/main/Palmeiras.png',
-              #'Red Bull': 'https://github.com/JAmerico1898/Financials/blob/main/Red Bull.png',
+              #'Red Bull': 'https://github.com/JAmerico1898/Financials/blob/main/RedBull.png',
               'Santos': 'https://github.com/JAmerico1898/Financials/blob/main/Santos.png',
-              'São Paulo': 'https://github.com/JAmerico1898/Financials/blob/main/Sao Paulo.png',
+              'São Paulo': 'https://github.com/JAmerico1898/Financials/blob/main/SaoPaulo.png',
               'Vasco': 'https://github.com/JAmerico1898/Financials/blob/main/Vasco.png'}
 
 
@@ -63,7 +64,7 @@ df1 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Índices")
 clubs = pd.read_excel("clubes.xlsx")
 
 # Defining clubes
-clubes = ["América", "Athlético", "Atlético", "Bahia", "Botafogo", 
+clubes = ["América", "Athletico", "Atlético", "Bahia", "Botafogo", 
           "Corinthians", "Coritiba", "Cruzeiro", "Cuiabá", "Flamengo", 
           "Fluminense", "Fortaleza", "Grêmio", "Goiás", "Internacional", 
           "Palmeiras", "Santos", "São Paulo", "Vasco"]
@@ -689,6 +690,7 @@ if choose == "Análise Individual":
 ###############################################################################################################################################
 
 elif choose == "Análise Comparativa Univariada":
+
     tema_cont = st.selectbox("Escolha o Tema Contábil", options=temas_cont)
     fontsize = 24
     if tema_cont == "Receita c/ Direitos de Transmissão":
@@ -705,7 +707,7 @@ elif choose == "Análise Comparativa Univariada":
         def getImage(url):
             try:
                 response = requests.get(url)
-                img = Image.open(io.BytesIO(response.content))
+                img = Image.open(BytesIO(response.content))
                 return OffsetImage(img, zoom=1.25)
             except Exception as e:
                 print(f"Error loading image from {url}: {e}")
@@ -724,9 +726,12 @@ elif choose == "Análise Comparativa Univariada":
         # Modify this part of your plotting code
         for i, club in enumerate(sorted_clubes):
             img_url = club_image_paths.get(club)
+            #st.write(img_url)
             if img_url:
                 img = getImage(img_url)
+                st.write(img)
                 if img:
+                    st.write(img)
                     # Get the index for the selected categories (eixo_x, eixo_y)
                     ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
                                         xycoords='data', boxcoords="data",
