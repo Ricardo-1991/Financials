@@ -9,6 +9,7 @@ from PIL import Image
 import io
 import requests
 from io import BytesIO
+import urllib.request
 
 # Setup our colours
 color_link = ['#000000', '#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46',
@@ -35,33 +36,34 @@ color_link = ['#000000', '#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46',
 ]
 
 
-club_image_paths = {'América': 'https://github.com/JAmerico1898/Financials/tree/main/America.png',
-              'Athletico': 'https://raw.githubusercontent.com/JAmerico1898/Financials/tree/main/Athletico.png',
-              'Atlético': 'https://raw.githubusercontent.com/JAmerico1898/Financials/blob/main/Atletico.png',
-              'Bahia': 'https://github.com/JAmerico1898/Financials/blob/main/Bahia.png',
-              'Botafogo': 'https://github.com/JAmerico1898/Financials/blob/main/Botafogo.png',
-              'Corinthians': 'https://github.com/JAmerico1898/Financials/blob/main/Corinthians.png',
-              'Coritiba': 'https://github.com/JAmerico1898/Financials/blob/main/Coritiba.png',
-              'Cruzeiro': 'https://github.com/JAmerico1898/Financials/blob/main/Cruzeiro.png',
-              'Cuiabá': 'https://github.com/JAmerico1898/Financials/blob/main/Cuiaba.png',
-              'Flamengo': 'https://github.com/JAmerico1898/Financials/blob/main/Flamengo.png',
-              'Fluminense': 'https://github.com/JAmerico1898/Financials/blob/main/Fluminense.png',
-              'Fortaleza': 'https://github.com/JAmerico1898/Financials/blob/main/Fortaleza.png',
-              'Goiás': 'https://github.com/JAmerico1898/Financials/blob/main/Goias.png',
-              'Grêmio': 'https://github.com/JAmerico1898/Financials/blob/main/Gremio.png',
-              'Internacional': 'https://github.com/JAmerico1898/Financials/blob/main/Internacional.png',
-              'Palmeiras': 'https://github.com/JAmerico1898/Financials/blob/main/Palmeiras.png',
-              #'Red Bull': 'https://github.com/JAmerico1898/Financials/blob/main/RedBull.png',
-              'Santos': 'https://github.com/JAmerico1898/Financials/blob/main/Santos.png',
-              'São Paulo': 'https://github.com/JAmerico1898/Financials/blob/main/SaoPaulo.png',
-              'Vasco': 'https://github.com/JAmerico1898/Financials/blob/main/Vasco.png'}
+club_image_paths = {'América': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/America.png',
+              'Athletico': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Athletico.png',
+              'Atlético': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Atletico.png',
+              'Bahia': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Bahia.png',
+              'Botafogo': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Botafogo.png',
+              'Corinthians': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Corinthians.png',
+              'Coritiba': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Coritiba.png',
+              'Cruzeiro': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Cruzeiro.png',
+              'Cuiabá': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Cuiaba.png',
+              'Flamengo': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Flamengo.png',
+              'Fluminense': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Fluminense.png',
+              'Fortaleza': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Fortaleza.png',
+              'Goiás': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Goias.png',
+              'Grêmio': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Gremio.png',
+              'Internacional': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Internacional.png',
+              'Palmeiras': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Palmeiras.png',
+              #'Red Bull': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/RedBull.png',
+              'Santos': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Santos.png',
+              'São Paulo': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/SaoPaulo.png',
+              'Vasco': 'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/Vasco.png'}
 
 
 # Loading base file
-df = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Resultado")
-df2 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Caixa")
-df1 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Índices")
-clubs = pd.read_excel("clubes.xlsx")
+df = pd.read_csv("resultado.csv")
+df2 = pd.read_csv("caixa.csv")
+df1 = pd.read_csv("índices.csv")
+clubs = pd.read_csv("clubes.csv")
+alt_clubs = pd.read_csv("alt_clubes.csv")
 
 # Defining clubes
 clubes = ["América", "Athletico", "Atlético", "Bahia", "Botafogo", 
@@ -91,19 +93,26 @@ temas_cont = ["Receita c/ Direitos de Transmissão", "Receita c/ Publicidade e p
          "Receita de Match-Day", "Receita de Sócio-torcedor", "Premiações", 
          "Receita c/ Licenciamento da marca", "Receita Recorrente", "Receita c/ Negociação de Atletas", 
          "Receita Operacional Líquida", "Despesas com Operação de Jogos", 
-         "Despesas Gerais e Administrativas", "Resultado", "Geração de Caixa Operacional", 
-         "EBITDA", "Dívida", "Aquisições de atletas"]
+         "Despesas Gerais e Administrativas", "Despesas totais", "Resultado", "Geração de Caixa Operacional", 
+         "EBITDA", "Dívida"]
+
+# Defining temas esportivos
+temas_esport = ["Folha do futebol", "Aquisições de atletas", "Despesas Operacionais c/ Base", 
+                 "Base de Torcedores", "Pontuação Série A 2023", "Bilheteria Série A 2023 (R$ milhões)", 
+                 "Bilheteria média (R$ mil/jogo)", "Público Médio (pagantes)", "Sócios-Torcedores", 
+                 "Valor do Elenco (€ milhões)"]
 
 # Defining temas gerenciais
-temas_ger = ["Folha do Futebol", "Base de Torcedores", "Pontuação Série A 2023", 
-         "Performance Série A 2023", "Bilheteria Série A 2023 (R$ milhões)", "Bilheteria média (R$ mil/jogo)", 
-         "Público Médio (pagantes)", "Sócios-Torcedores", "Público Médio / Sócios-Torcedores (%)", 
-         "Valor do Elenco (€ milhões)"]
-
+temas_ger = ["Público Médio / Sócios-Torcedores", "Receita Operacional Líquida / Base de Torcedores", 
+             "Receita Operacional Líquida / Sócios Torcedores", 
+             "Receita com Venda de Direitos Econômicos / Gastos com a Base", 
+             "Receita com Venda de Direitos Econômicos / Pontuação", 
+             "Receita com Premiação / Folha do Futebol", "Folha do futebol / Pontuação", 
+             "Receita Operacional Líquida / Pontuação"]
 
 # Defining temas
 temas_y = ["Receita c/ Direitos de transmissão", "Receita c/ Publicidade e patrocínio", 
-           "Receita de Match-Day", "Receita de Sócio-torcedor", "Premiações", 
+           "Receita c/ Match-Day", "Receita de Sócio-torcedor", "Premiações", 
            "Receita c/ Licenciamento da marca", "Receita Recorrente", 
            "Receita c/ Negociação de atletas", "Receita Operacional Líquida", "Folha do futebol", 
            "Despesas com Operação de jogos", "Despesas gerais e administrativas", "Resultado", 
@@ -131,7 +140,7 @@ with st.sidebar:
 ###############################################################################################################################
 
 if choose == "Análise Individual":
-    clube = st.selectbox("Escolha o Clube", options=clubes)
+    clube = st.selectbox("Escolha o Clube", options=clubes, index=None)
     fontsize = 24
     if clube == "Palmeiras":
         markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
@@ -691,7 +700,7 @@ if choose == "Análise Individual":
 
 elif choose == "Análise Comparativa Univariada":
 
-    tema_cont = st.selectbox("Escolha o Tema Contábil", options=temas_cont)
+    tema_cont = st.selectbox("Escolha o Tema Contábil", options=temas_cont, index=None)
     fontsize = 24
     if tema_cont == "Receita c/ Direitos de Transmissão":
         tópico = df1.iloc[0, 1:].values
@@ -726,12 +735,9 @@ elif choose == "Análise Comparativa Univariada":
         # Modify this part of your plotting code
         for i, club in enumerate(sorted_clubes):
             img_url = club_image_paths.get(club)
-            #st.write(img_url)
             if img_url:
                 img = getImage(img_url)
-                st.write(img)
                 if img:
-                    st.write(img)
                     # Get the index for the selected categories (eixo_x, eixo_y)
                     ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
                                         xycoords='data', boxcoords="data",
@@ -774,28 +780,30 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
-
+            
         fig, ax = plt.subplots(figsize=(15, 10))
         ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
         # Set ylim if necessary to create space for club icons
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
         # Modify this part of your plotting code
         for i, club in enumerate(sorted_clubes):
-            img_path = club_image_paths.get(club)
-            if img_path:
-                img = getImage(img_path)
+            img_url = club_image_paths.get(club)
+            if img_url:
+                img = getImage(img_url)
                 if img:
                     # Get the index for the selected categories (eixo_x, eixo_y)
                     ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
@@ -839,11 +847,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -852,7 +862,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -904,11 +914,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -917,7 +929,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -969,11 +981,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -982,7 +996,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1034,11 +1048,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1047,7 +1063,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1088,7 +1104,7 @@ elif choose == "Análise Comparativa Univariada":
 ########################################################################################################################################
 
     elif tema_cont == "Receita Recorrente":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema:}</div>"
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_cont:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -1099,11 +1115,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1112,7 +1130,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1133,7 +1151,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -1164,11 +1182,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1177,7 +1197,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1229,11 +1249,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1242,7 +1264,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1294,11 +1316,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1307,7 +1331,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1359,11 +1383,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1372,7 +1398,74 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=16)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+############################################################################################################################################
+
+    elif tema_cont == "Despesas totais":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_cont:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[16, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1424,11 +1517,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1437,7 +1532,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1489,11 +1584,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1502,7 +1599,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1554,11 +1651,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1567,7 +1666,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1619,11 +1718,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1632,7 +1733,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1684,11 +1785,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1697,7 +1800,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1738,11 +1841,10 @@ elif choose == "Análise Comparativa Univariada":
 ########################################################################################################################################
 ########################################################################################################################################
 ########################################################################################################################################
-
-    tema_ger = st.selectbox("Escolha o Tema Gerencial", options=temas_ger)
+    tema_esport = st.selectbox("Escolha o Tema Esportivo", options=temas_esport, index=None)
     fontsize = 24
-    if tema_ger == "Folha do Futebol":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    if tema_esport == "Folha do futebol":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -1753,11 +1855,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1766,7 +1870,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1787,7 +1891,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -1806,8 +1910,142 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Base de Torcedores":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    elif tema_esport == "Aquisições de atletas":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[22, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=16)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_esport == "Despesas Operacionais c/ Base":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[24, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=16)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_esport == "Base de Torcedores":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -1818,11 +2056,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1831,7 +2071,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1852,7 +2092,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -1871,8 +2111,8 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Pontuação Série A 2023":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    elif tema_esport == "Pontuação Série A 2023":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -1883,11 +2123,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1896,7 +2138,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1917,7 +2159,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -1936,8 +2178,8 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Bilheteria Série A 2023 (R$ milhões)":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    elif tema_esport == "Bilheteria Série A 2023 (R$ milhões)":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -1948,11 +2190,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -1961,7 +2205,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -1982,7 +2226,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -2001,8 +2245,8 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Bilheteria média (R$ mil/jogo)":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    elif tema_esport == "Bilheteria média (R$ mil/jogo)":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -2013,11 +2257,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -2026,7 +2272,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -2047,7 +2293,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -2066,8 +2312,8 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Público Médio (pagantes)":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    elif tema_esport == "Público Médio (pagantes)":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -2078,11 +2324,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -2091,7 +2339,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -2112,7 +2360,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -2131,8 +2379,8 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Sócios-Torcedores":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    elif tema_esport == "Sócios-Torcedores":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
@@ -2143,11 +2391,13 @@ elif choose == "Análise Comparativa Univariada":
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -2156,7 +2406,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -2177,7 +2427,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -2196,23 +2446,25 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Público Médio / Sócios-Torcedores (%)":
-        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+    elif tema_esport == "Valor do Elenco (€ milhões)":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_esport:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
 
-        tópico = df1.iloc[35, 1:].values
+        tópico = df1.iloc[37, 1:].values
 
         # Pairing clubs with their revenues and sorting them by revenue in descending order
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -2221,7 +2473,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -2242,7 +2494,77 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+
+########################################################################################################################################
+
+    tema_ger = st.selectbox("Escolha o Tema Gerencial", options=temas_ger, index=None)
+    fontsize = 24
+    if tema_ger == "Público Médio / Sócios-Torcedores":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger} (%)</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[35, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -2261,23 +2583,26 @@ elif choose == "Análise Comparativa Univariada":
 
 ########################################################################################################################################
 
-    elif tema_ger == "Valor do Elenco (€ milhões)":
+    elif tema_ger == "Receita Operacional Líquida / Base de Torcedores":
         markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("<h6 style='text-align: center;  color: black;'>(R$ / Torcedor)</b></h6>", unsafe_allow_html=True)
         st.markdown("---")
 
-        tópico = df1.iloc[37, 1:].values
+        tópico = df1.iloc[38, 1:].values
 
         # Pairing clubs with their revenues and sorting them by revenue in descending order
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
-        def getImage(path):
+        def getImage(url):
             try:
-                return OffsetImage(plt.imread(path), zoom=1.25)
-            except FileNotFoundError:
-                print(f"File not found: {path}")
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
                 return None
 
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -2286,7 +2611,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Increase the ylim if necessary to create more space for club icons
         max_revenue = max(sorted_revenues)
-        ax.set_ylim(-max_revenue*0.2, max_revenue*1.2)  # Adjusting space at the bottom for icons
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
 
         bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
 
@@ -2307,7 +2632,414 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_ger == "Receita Operacional Líquida / Sócios Torcedores":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("<h6 style='text-align: center;  color: black;'>(R$ mil / Torcedor)</b></h6>", unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[39, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_ger == "Receita com Venda de Direitos Econômicos / Gastos com a Base":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[40, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_ger == "Receita com Venda de Direitos Econômicos / Pontuação":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("<h6 style='text-align: center;  color: black;'>(R$ milhões / Ponto conquistado)</b></h6>", unsafe_allow_html=True)
+
+        st.markdown("---")
+
+        tópico = df1.iloc[41, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_ger == "Receita com Premiação / Folha do Futebol":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[42, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_ger == "Folha do futebol / Pontuação":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("<h6 style='text-align: center;  color: black;'>(R$ milhões / Ponto conquistado)</b></h6>", unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[43, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+########################################################################################################################################
+
+    elif tema_ger == "Receita Operacional Líquida / Pontuação":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("<h6 style='text-align: center;  color: black;'>(R$ milhões / Ponto conquistado)</b></h6>", unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[44, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -2328,7 +3060,6 @@ elif choose == "Análise Comparativa Univariada":
 ###############################################################################################################################################
 ###############################################################################################################################################
 
-
 elif choose == "Análise Comparativa Bivariada":
     fontsize = 24
     #markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema:}</div>"
@@ -2336,8 +3067,8 @@ elif choose == "Análise Comparativa Bivariada":
     #st.markdown(markdown_1, unsafe_allow_html=True)
     st.markdown("---")
 
-    eixo_x = st.selectbox("Escolha o primeiro Tema (eixo horizontal)", options=temas_x)           #tópico = df1.iloc[24, 1:].values
-    eixo_y = st.selectbox("Escolha o primeiro Tema (eixo vertical)", options=temas_y)
+    eixo_x = st.selectbox("Escolha o primeiro Tema (eixo horizontal)", options=temas_x, index=None)           #tópico = df1.iloc[24, 1:].values
+    eixo_y = st.selectbox("Escolha o primeiro Tema (eixo vertical)", options=temas_y, index=None)
     if eixo_x:
         # Filtering the row where column 0 matches the category (eixo_x)
         filtered_row_x = df1.loc[df1.iloc[:, 0] == eixo_x]
@@ -2352,12 +3083,15 @@ elif choose == "Análise Comparativa Bivariada":
             # Plotting using "fig"
             fig, ax = plt.subplots(figsize=(8, 6))
 
-            club_image_paths = {club: f'C:/Users/degef.antunes/Desktop/JoséAmérico/Python_Projects/Financials/{club}.png' for club in clubs.iloc[:, 0].unique()}
-            def getImage(path):
+            club_image_paths = {club: f'https://raw.githubusercontent.com/JAmerico1898/Financials/b8aa21e79bd9f585f0acd3daf3d22d6c1002c314/{alt_club}.png'
+                    for club, alt_club in zip(clubs['Clubes'], alt_clubs['alt_clubs'])}
+            def getImage(url):
                 try:
-                    return OffsetImage(plt.imread(path), zoom=0.65)
-                except FileNotFoundError:
-                    print(f"File not found: {path}")
+                    with urllib.request.urlopen(url) as response:
+                        img = Image.open(response)
+                        return OffsetImage(img, zoom=0.65)
+                except Exception as e:
+                    st.error(f"Error loading image from {url}: {e}")
                     return None
 
             # Modify this part of your plotting code
@@ -2381,9 +3115,9 @@ elif choose == "Análise Comparativa Bivariada":
 
             # Plotting using "fig"
             ax.scatter(result_x, result_y, color='green', alpha=0.5)
-            ax.set_title(f'{eixo_x} vs {eixo_y}', fontsize=16, fontweight='bold')
-            ax.set_xlabel(eixo_x, fontsize=14, fontweight='bold')
-            ax.set_ylabel(eixo_y, fontsize=14, fontweight='bold')
+            ax.set_title(f'{eixo_x} vs {eixo_y}', fontsize=15, fontweight='bold')
+            ax.set_xlabel(eixo_x, fontsize=13, fontweight='bold')
+            ax.set_ylabel(eixo_y, fontsize=13, fontweight='bold')
             ax.spines['right'].set_visible(False)
             ax.spines['top'].set_visible(False)
             ax.set_ylim([min(result_y) - 1, max(result_y) + 20])
