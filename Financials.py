@@ -66,6 +66,8 @@ df = pd.read_csv("resultado.csv")
 df1 = pd.read_csv("índices.csv")
 df2 = pd.read_csv("caixa.csv")
 df3 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Painel_Cte")
+df4 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Transparência")
+
 clubs = pd.read_csv("clubes.csv")
 alt_clubs = pd.read_csv("alt_clubes.csv")
 
@@ -111,7 +113,8 @@ temas_ger = ["Público Médio / Sócios-Torcedores", "Receita Operacional Líqui
              "Receita com Venda de Direitos Econômicos / Pontuação", 
              "Receita com Premiação / Folha do Futebol", "Folha do futebol / Pontuação", 
              "Receita Operacional Líquida / Pontuação", "Dívida / EBITDA", 
-             "Dívida / Receita Operacional Líquida"]
+             "Dívida / Receita Operacional Líquida", "Folha do futebol / Receita Operacional Líquida",
+             "Folha futebol + Compra jogadores / Rec Oper Líquida"]
 
 # Defining temas
 temas_y = ["Pontuação Série A 2023", "Performance Série A 2023", "Base de Torcedores",
@@ -127,17 +130,18 @@ temas_x = ["Receita c/ Direitos de transmissão", "Receita c/ Publicidade e patr
            "Valor do Elenco (€ milhões)", "PIB do Estado (R$ bilhões)"
            ]
 
-with st.sidebar:
-    choose = option_menu("Galeria de Apps", ["Análise Individual - 2023", "Análise Individual - Histórica", "Análise Comparativa Univariada", "Análise Comparativa Bivariada"],
-                         icons=['graph-up-arrow', 'graph-up-arrow', 'magic', 'book'],
-                         menu_icon="app-indicator", default_index=0, 
+choose = option_menu("Galeria de Apps", ["Análise Individual - 2023", "Análise Individual - Histórica", 
+                                             "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
+                                             "Índice de Transparência"],
+                         icons=['graph-up-arrow', 'graph-up-arrow', 'magic', 'book', 'book'],
+                         menu_icon="app-indicator", default_index=0,
                          styles={
                          "container": {"padding": "5!important", "background-color": "#fafafa"},
                          "icon": {"color": "orange", "font-size": "25px"},
                          "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
                          "nav-link-selected": {"background-color": "#02ab21"},    
                          }
-                         )
+                         )    
 
 ###############################################################################################################################
 
@@ -3584,7 +3588,7 @@ elif choose == "Análise Comparativa Univariada":
         ax.set_xticks([])
 
         ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (%)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -3723,7 +3727,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -3922,7 +3926,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -4055,7 +4059,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -4186,7 +4190,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -4318,7 +4322,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -4450,7 +4454,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -4581,7 +4585,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -4713,7 +4717,7 @@ elif choose == "Análise Comparativa Univariada":
 
         # Adding titles and labels
         ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -4722,6 +4726,269 @@ elif choose == "Análise Comparativa Univariada":
         # Show the plot
         st.pyplot(fig)
 
+###############################################################################################################################################
+###############################################################################################################################################
+
+    elif tema_ger == "Folha do futebol / Receita Operacional Líquida":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada (2023)</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+#        st.markdown("<h6 style='text-align: center;  color: black;'>(%)</b></h6>", unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[51, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (%)', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height*100:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+#######################################################################################################################################
+
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa 2019-2023 (em moeda constante)</b></h4>", unsafe_allow_html=True)
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{highlight:} (em destaque)</div>"
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        years = ['2019', '2020', '2021', '2022', '2023']
+
+        tópico2 = df3.iloc[32, 1:].values
+        club_data = {
+            'América': tópico2[:5][::-1][:5],
+            'Atlético': tópico2[5:10][::-1][:5],
+            'Athletico': tópico2[10:15][::-1][:5],
+            'Bahia': tópico2[15:20][::-1][:5],
+            'Botafogo': tópico2[20:25][::-1][:5],
+            'Corinthians': tópico2[25:30][::-1][:5],
+            'Coritiba': tópico2[30:35][::-1][:5],
+            'Cruzeiro': tópico2[35:40][::-1][:5],
+            'Cuiabá': tópico2[40:45][::-1][:5],
+            'Flamengo': tópico2[45:50][::-1][:5],
+            'Fluminense': tópico2[50:55][::-1][:5],
+            'Fortaleza': tópico2[55:60][::-1][:5],
+            'Grêmio': tópico2[60:65][::-1][:5],
+            'Goiás': tópico2[65:70][::-1][:5],
+            'Internacional': tópico2[70:75][::-1][:5],
+            'Palmeiras': tópico2[75:80][::-1][:5],
+            'Santos': tópico2[80:85][::-1][:5],
+            'São Paulo': tópico2[85:90][::-1][:5],
+            'Vasco': tópico2[90:95][::-1][:5]
+        }
+
+        # Plotting each club's data
+        fig, ax = plt.subplots(figsize=(11, 8))  # Set the size of the plot
+
+        # Plot each club's data
+        for club, data in club_data.items():
+            if club == highlight:
+                ax.plot(years, data, label=club, linewidth=3.5, linestyle='-', color='blue')  # Highlighted line
+                # Annotate each point on the highlighted club's line
+                for i, value in enumerate(data):
+                    ax.annotate(f'{value:.2f}',  # Text to display
+                                (years[i], value),  # Point to annotate
+                                textcoords="offset points",  # how to position the text
+                                xytext=(0,10),  # distance from text to points (x,y)
+                                ha='center',  # horizontal alignment can be left, right or center
+                                va='bottom',
+                                fontsize=14, 
+                                fontweight='bold')
+            else:
+                ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
+
+        # Adding titles and labels
+        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (%)', fontsize=14, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelsize=12)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Show the plot
+        st.pyplot(fig)
+
+###############################################################################################################################################
+###############################################################################################################################################
+
+    elif tema_ger == "Folha futebol + Compra jogadores / Rec Oper Líquida":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada (2023)</b></h4>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+#        st.markdown("<h6 style='text-align: center;  color: black;'>(%)</b></h6>", unsafe_allow_html=True)
+        st.markdown("---")
+
+        tópico = df1.iloc[52, 1:].values
+
+        # Pairing clubs with their revenues and sorting them by revenue in descending order
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
+
+        def getImage(url):
+            try:
+                with urllib.request.urlopen(url) as response:
+                    img = Image.open(response)
+                    return OffsetImage(img, zoom=1.25)
+            except Exception as e:
+                st.error(f"Error loading image from {url}: {e}")
+                return None
+
+        fig, ax = plt.subplots(figsize=(15, 10))
+        ax.set_xlim(-0.5, len(sorted_clubes)-0.5)
+        # Set ylim if necessary to create space for club icons
+
+        # Increase the ylim if necessary to create more space for club icons
+        max_revenue = max(sorted_revenues)
+        ax.set_ylim(-max_revenue*0.2, max_revenue*1.07)  # Adjusting space at the bottom for icons
+
+        bars = ax.bar(range(len(sorted_clubes)), sorted_revenues, color='skyblue')
+
+        # Modify this part of your plotting code
+        for i, club in enumerate(sorted_clubes):
+            img_path = club_image_paths.get(club)
+            if img_path:
+                img = getImage(img_path)
+                if img:
+                    # Get the index for the selected categories (eixo_x, eixo_y)
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                                        xycoords='data', boxcoords="data",
+                                        box_alignment=(0.5, 0), frameon=False)
+                    ax.add_artist(ab)
+                else:
+                    print(f"Failed to load image for {club}")
+
+        ax.set_xticks([])
+
+        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (%)', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adding text above bars
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height*100:.0f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom', fontsize=15)
+
+        fig.tight_layout()
+        st.pyplot(fig)
+
+#######################################################################################################################################
+
+        st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa 2019-2023 (em moeda constante)</b></h4>", unsafe_allow_html=True)
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{highlight:} (em destaque)</div>"
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        years = ['2019', '2020', '2021', '2022', '2023']
+
+        tópico2 = df3.iloc[33, 1:].values
+        club_data = {
+            'América': tópico2[:5][::-1][:5],
+            'Atlético': tópico2[5:10][::-1][:5],
+            'Athletico': tópico2[10:15][::-1][:5],
+            'Bahia': tópico2[15:20][::-1][:5],
+            'Botafogo': tópico2[20:25][::-1][:5],
+            'Corinthians': tópico2[25:30][::-1][:5],
+            'Coritiba': tópico2[30:35][::-1][:5],
+            'Cruzeiro': tópico2[35:40][::-1][:5],
+            'Cuiabá': tópico2[40:45][::-1][:5],
+            'Flamengo': tópico2[45:50][::-1][:5],
+            'Fluminense': tópico2[50:55][::-1][:5],
+            'Fortaleza': tópico2[55:60][::-1][:5],
+            'Grêmio': tópico2[60:65][::-1][:5],
+            'Goiás': tópico2[65:70][::-1][:5],
+            'Internacional': tópico2[70:75][::-1][:5],
+            'Palmeiras': tópico2[75:80][::-1][:5],
+            'Santos': tópico2[80:85][::-1][:5],
+            'São Paulo': tópico2[85:90][::-1][:5],
+            'Vasco': tópico2[90:95][::-1][:5]
+        }
+
+        # Plotting each club's data
+        fig, ax = plt.subplots(figsize=(11, 8))  # Set the size of the plot
+
+        # Plot each club's data
+        for club, data in club_data.items():
+            if club == highlight:
+                ax.plot(years, data, label=club, linewidth=3.5, linestyle='-', color='blue')  # Highlighted line
+                # Annotate each point on the highlighted club's line
+                for i, value in enumerate(data):
+                    ax.annotate(f'{value:.2f}',  # Text to display
+                                (years[i], value),  # Point to annotate
+                                textcoords="offset points",  # how to position the text
+                                xytext=(0,10),  # distance from text to points (x,y)
+                                ha='center',  # horizontal alignment can be left, right or center
+                                va='bottom',
+                                fontsize=14, 
+                                fontweight='bold')
+            else:
+                ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
+
+        # Adding titles and labels
+        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger} (%)', fontsize=14, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelsize=12)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Show the plot
+        st.pyplot(fig)
 ###############################################################################################################################################
 ###############################################################################################################################################
 
@@ -4814,7 +5081,8 @@ elif choose == "Análise Comparativa Bivariada":
 if choose == "Análise Individual - Histórica":
     clube = st.selectbox("Escolha o Clube", options=clubes, index=None)
     fontsize = 24
-    if clube == "Palmeiras":
+
+    if clube == "América":
         markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
@@ -4822,7 +5090,7 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[28, 2:7, 8], 76:81]
+        selected_data = df3.iloc[np.r_[1:7, 8], 1:6]
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -4844,7 +5112,7 @@ if choose == "Análise Individual - Histórica":
                         ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
 
         # Setting the labels and title using ax methods
-        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
                  "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
         
         # Function to break labels into two lines if longer than a given number of characters
@@ -4878,7 +5146,7 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[10, 13:15], 76:81]
+        selected_data = df3.iloc[np.r_[10, 13:15], 1:6]
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -4939,7 +5207,7 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[22:25, 27], 76:81]
+        selected_data = df3.iloc[np.r_[22:25, 26], 1:6]
         selected_data = selected_data.round(1)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -5002,7 +5270,7 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[25:28, 31], 76:81]
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 1:6]
         selected_data = selected_data.round(2)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -5025,8 +5293,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
                          "Folha do futebol / Pontuação", 
-                         "Rec Oper Líquida / Pontuação", 
-                         "Dívida / Rec Oper Líquida"]
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -5059,6 +5327,1508 @@ if choose == "Análise Individual - Histórica":
         # Adjust layout and show plot
         fig.tight_layout()
         st.pyplot(fig)        
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Atlético":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 6:11]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 6:11]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 6:11]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 6:11]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Athletico":
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 11:16]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 11:16]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 11:16]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 11:16]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Corinthians":
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 21:26]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 21:26]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 21:26]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 21:26]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Coritiba":
+        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 26:31]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 26:31]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 26:31]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 26:31]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Cruzeiro":
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 31:36]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 31:36]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 31:36]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 31:36]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Cruzeiro":
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 36:41]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 36:41]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 36:41]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 36:41]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
 ######################################################################################################################
 ######################################################################################################################
 ######################################################################################################################
@@ -5252,7 +7022,7 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[25:28, 31], 46:51]
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 46:51]
         selected_data = selected_data.round(2)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -5275,8 +7045,1514 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
                          "Folha do futebol / Pontuação", 
-                         "Rec Oper Líquida / Pontuação", 
-                         "Dívida / Rec Oper Líquida"]
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Fluminense":
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 51:56]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 51:56]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 51:56]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 51:56]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Fortaleza":
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 56:61]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 56:61]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 56:61]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 56:61]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Grêmio":
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 61:66]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 61:66]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 61:66]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 61:66]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Goiás":
+        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 66:71]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 66:71]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 66:71]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 66:71]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Internacional":
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 71:76]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 71:76]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 71:76]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 71:76]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Palmeiras":
+        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 76:81]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 76:81]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 76:81]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 76:81]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greens')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -5314,8 +8590,820 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 ######################################################################################################################
 
+    if clube == "Santos":
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
 
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 81:86]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
+        # Create a colormap of Greys
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
 
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
 
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 81:86]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 81:86]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 81:86]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Greys')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "São Paulo":
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 86:91]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greys
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 86:91]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 86:91]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 86:91]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Reds')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Vasco":
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[28, 2:7, 8], 91:96]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Greys
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 91:96]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 91:96]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação",
+                         "Rec Oper Líquida / Pontuação"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 91:96]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+elif choose == "Índice de Transparência":
+    st.markdown("<h4 style='text-align: center;  color: black;'>Índice de Transparência das<br> Demonstrações Financeiras - 2023</b></h4>", unsafe_allow_html=True)
+    st.markdown("---")
+
+    tópico = df4.iloc[0:3, 1:].transpose()
+
+    # Retrieve labels for the bars from the first row
+    labels = df4.iloc[0:3, 0]  # Assuming labels are in the first column
+
+# Pairing clubs with their revenues and sorting them by revenue in descending order
+    df_sorted = tópico.assign(Total=tópico.sum(axis=1)).sort_values(by='Total', ascending=False)
+    sorted_clubes = df_sorted.index
+
+    fig, ax = plt.subplots(figsize=(15, 10))
+    ax.set_ylim(-0.15 * df_sorted['Total'].max(), df_sorted['Total'].max() * 1.1)
+
+    # Colors for the bars can be adjusted as needed
+    colors = ['skyblue', 'lightgreen', 'salmon']
+    bottom = None
+
+    for name, color, label in zip(df_sorted.columns[:-1], colors, labels):
+        bars = ax.bar(sorted_clubes, df_sorted[name], bottom=bottom, label=label, color=color)
+        bottom = df_sorted[name] if bottom is None else bottom + df_sorted[name]
+
+    def getImage(url):
+        try:
+            response = requests.get(url)
+            img = Image.open(BytesIO(response.content))
+            return OffsetImage(img, zoom=1.25)
+        except Exception as e:
+            print(f"Error loading image from {url}: {e}")
+            return None
+
+    # Modify this part of your plotting code for images
+    for i, club in enumerate(sorted_clubes):
+        img_url = club_image_paths.get(club)
+        if img_url:
+            img = getImage(img_url)
+            if img:
+                ab = AnnotationBbox(img, (i, -0.05 * df_sorted['Total'].max()),  # Adjust this offset as needed
+                                    xycoords='data', boxcoords="data",
+                                    box_alignment=(0.5, 1), frameon=False)
+                ax.add_artist(ab)
+            else:
+                print(f"Failed to load image for {club}")
+
+    ax.set_xticks([])
+
+    #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+    ax.set_ylabel(f'Índice de Transparência', fontsize=20, fontweight='bold')
+    ax.tick_params(axis='y', labelsize=16)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    # Adding text above bars
+    cum_values = df_sorted.iloc[:, :-1].cumsum(axis=1)
+    for i, club in enumerate(sorted_clubes):
+        total_height = cum_values.loc[club, tópico.columns[-1]]
+        ax.annotate(f'{total_height:.1f}', xy=(i, total_height),
+                    xytext=(0, 3),  # 3 points vertical offset to place text above the bar
+                    textcoords="offset points",
+                    ha='center', va='bottom', fontsize=16)
+
+    leg = ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.01), fontsize=16, frameon=False, ncol=3)
+    fig.tight_layout()
+    st.pyplot(fig)
