@@ -12,6 +12,8 @@ from io import BytesIO
 import urllib.request
 from soccerplots.radar_chart import Radar
 import matplotlib.colors as mcolors
+import PyPDF2
+
 
 
 # Setup our colours
@@ -67,6 +69,7 @@ df1 = pd.read_csv("índices.csv")
 df2 = pd.read_csv("caixa.csv")
 df3 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Painel_Cte")
 df4 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Transparência")
+df5 = pd.read_excel("Balanços - clubes.xlsx", sheet_name="Transparência (2)")
 
 clubs = pd.read_csv("clubes.csv")
 alt_clubs = pd.read_csv("alt_clubes.csv")
@@ -110,30 +113,30 @@ temas_esport = ["Folha do futebol", "Aquisições de atletas", "Gastos com a Bas
 temas_ger = ["Público Médio / Sócios-Torcedores", "Receita Operacional Líquida / Base de Torcedores", 
              "Receita Operacional Líquida / Sócios Torcedores", 
              "Receita com Venda de Direitos Econômicos / Gastos com a Base", 
-             "Receita com Venda de Direitos Econômicos / Pontuação", 
-             "Receita com Premiação / Folha do Futebol", "Folha do futebol / Pontuação", 
-             "Receita Operacional Líquida / Pontuação", "Dívida / EBITDA", 
+             "Receita com Venda de Direitos Econômicos / Pontuação Série A", 
+             "Receita com Premiação / Folha do Futebol", "Folha do futebol / Pontuação Série A", 
+             "Receita Operacional Líquida / Pontuação Série A", "Dívida / EBITDA", 
              "Dívida / Receita Operacional Líquida", "Folha do futebol / Receita Operacional Líquida",
              "Folha futebol + Compra jogadores / Rec Oper Líquida"]
 
 # Defining temas
-temas_y = ["Pontuação Série A 2023", "Performance Série A 2023", "Base de Torcedores",
+temas_y = ["Pontuação Série A 2023", "Performance Série A 2023", 
            "Receita c/ Match-Day", "Receita c/ Sócio-torcedor", "Premiações", 
-           "Bilheteria média Série A 2023 (R$ mil/jogo)", "Público Médio (pagantes)", "Sócios-Torcedores",             
-            "Resultado", "Bilheteria Série A 2023 (R$ milhões)"            
+           "Bilheteria média Série A 2023 (R$ mil/jogo)", "Público Médio (pagantes)", 
+           "Sócios-Torcedores", "Resultado", "Bilheteria Série A 2023 (R$ milhões)"            
            ]
 
 # Defining temas
-temas_x = ["Receita c/ Direitos de transmissão", "Receita c/ Publicidade e patrocínio", 
-           "Base de Torcedores", "Folha do futebol", "EBITDA", "Dívida", "Aquisições de atletas",
-           "Gastos com a Base", "Receita c/ Negociação de atletas", "Receita Operacional Líquida",            
-           "Valor do Elenco (€ milhões)", "PIB do Estado (R$ bilhões)"
+temas_x = ["Receita c/ Direitos de transmissão", "Folha do futebol", "Base de Torcedores", "EBITDA", 
+           "Dívida", "Aquisições de atletas", "Gastos com a Base", "Receita c/ Negociação de atletas", 
+           "Receita Operacional Líquida", "Valor do Elenco (€ milhões)", "PIB do Estado (R$ bilhões)", 
+           "Receita c/ Publicidade e patrocínio", "Receita c/ Match-Day", "Receita c/ Transmissão + Premiações"
            ]
 
 choose = option_menu("Galeria de Apps", ["Análise Individual - 2023", "Análise Individual - Histórica", 
                                              "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
-                                             "Índice de Transparência"],
-                         icons=['graph-up-arrow', 'graph-up-arrow', 'magic', 'book', 'book'],
+                                             "Índice de Transparência", "Definição das Variáveis"],
+                         icons=['graph-up-arrow', 'graph-up-arrow', 'magic', 'book', 'book', 'book'],
                          menu_icon="app-indicator", default_index=0,
                          styles={
                          "container": {"padding": "5!important", "background-color": "#fafafa"},
@@ -944,11 +947,13 @@ elif choose == "Análise Comparativa Univariada":
 
             ax.set_xticks([])
 
-            ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-            ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
+            #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+            ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=22, fontweight='bold')
             ax.tick_params(axis='y', labelsize=16)
             ax.spines['right'].set_visible(False)
             ax.spines['top'].set_visible(False)
+            ax.spines['bottom'].set_visible(False)
+            ax.spines['left'].set_visible(False)
 
             # Adding text above bars
             for bar in bars:
@@ -1015,7 +1020,7 @@ elif choose == "Análise Comparativa Univariada":
                     ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
             # Adding titles and labels
-            ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+            #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
             ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
             ax.tick_params(axis='y', labelsize=12)
             ax.tick_params(axis='x', labelsize=12)
@@ -1076,11 +1081,14 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+
 
         # Adding text above bars
         for bar in bars:
@@ -1147,7 +1155,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -1207,11 +1215,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -1278,7 +1288,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -1338,11 +1348,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -1409,7 +1421,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -1469,11 +1481,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -1540,7 +1554,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -1600,11 +1614,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -1671,7 +1687,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -1731,11 +1747,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -1802,7 +1820,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -1862,11 +1880,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -1933,7 +1953,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -1993,11 +2013,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2064,7 +2086,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -2124,11 +2146,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2195,7 +2219,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -2255,11 +2279,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2326,7 +2352,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -2386,11 +2412,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2457,7 +2485,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -2476,7 +2504,7 @@ elif choose == "Análise Comparativa Univariada":
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
 
-        tópico = df1.iloc[20, 1:].values
+        tópico = df1.iloc[48, 1:].values
 
         # Pairing clubs with their revenues and sorting them by revenue in descending order
         paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
@@ -2517,11 +2545,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2588,7 +2618,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -2651,11 +2681,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2722,7 +2754,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -2782,11 +2814,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2853,7 +2887,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -2913,11 +2947,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -2984,7 +3020,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -3044,11 +3080,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3113,11 +3151,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3185,7 +3225,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_cont} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -3236,7 +3276,7 @@ elif choose == "Análise Comparativa Univariada":
                 img = getImage(img_path)
                 if img:
                     # Get the index for the selected categories (eixo_x, eixo_y)
-                    ab = AnnotationBbox(img, (i, -max_revenue*0.15),  # Adjusting for better alignment
+                    ab = AnnotationBbox(img, (i, -max_revenue*0.10),  # Adjusting for better alignment
                                         xycoords='data', boxcoords="data",
                                         box_alignment=(0.5, 0), frameon=False)
                     ax.add_artist(ab)
@@ -3245,11 +3285,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_esport} (R$ milhões)', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3313,11 +3355,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3381,11 +3425,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3449,11 +3495,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3517,11 +3565,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_esport}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3587,11 +3637,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (%)', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3655,11 +3707,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3726,8 +3780,8 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -3787,11 +3841,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3854,11 +3910,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=19, fontweight='bold')
         ax.tick_params(axis='y', labelsize=16)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -3925,8 +3983,8 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=12.5, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=12.5, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
@@ -3938,7 +3996,7 @@ elif choose == "Análise Comparativa Univariada":
 #######################################################################################################################################
 ########################################################################################################################################
 
-    elif tema_ger == "Receita com Venda de Direitos Econômicos / Pontuação":
+    elif tema_ger == "Receita com Venda de Direitos Econômicos / Pontuação Série A":
         markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada (2023)</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -3987,11 +4045,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=18, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4058,9 +4118,9 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
-        ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=12)
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        ax.set_ylabel(f'{tema_ger}', fontsize=12.5, fontweight='bold')
+        ax.tick_params(axis='y', labelsize=12, left=False, labelleft=False)
         ax.tick_params(axis='x', labelsize=12)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
@@ -4118,11 +4178,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4189,7 +4251,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -4202,7 +4264,7 @@ elif choose == "Análise Comparativa Univariada":
 #######################################################################################################################################
 ########################################################################################################################################
 
-    elif tema_ger == "Folha do futebol / Pontuação":
+    elif tema_ger == "Folha do futebol / Pontuação Série A":
         markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada (2023)</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -4250,11 +4312,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4321,7 +4385,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -4334,7 +4398,7 @@ elif choose == "Análise Comparativa Univariada":
 #######################################################################################################################################
 ########################################################################################################################################
 
-    elif tema_ger == "Receita Operacional Líquida / Pontuação":
+    elif tema_ger == "Receita Operacional Líquida / Pontuação Série A":
         markdown_1 = f"<div style='text-align:center;  color: black; font-weight: bold; font-size:{fontsize}px'>{tema_ger:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Análise Comparativa Univariada (2023)</b></h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -4382,11 +4446,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4453,7 +4519,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -4513,11 +4579,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4584,7 +4652,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -4645,11 +4713,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger}', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4716,7 +4786,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (R$ milhões)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -4739,7 +4809,7 @@ elif choose == "Análise Comparativa Univariada":
         tópico = df1.iloc[51, 1:].values
 
         # Pairing clubs with their revenues and sorting them by revenue in descending order
-        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=False)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
         def getImage(url):
@@ -4777,11 +4847,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (%)', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4848,7 +4920,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (%)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -4871,7 +4943,7 @@ elif choose == "Análise Comparativa Univariada":
         tópico = df1.iloc[52, 1:].values
 
         # Pairing clubs with their revenues and sorting them by revenue in descending order
-        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=True)
+        paired_clubs_revenues = sorted(zip(clubes, tópico), key=lambda x: x[1], reverse=False)
         sorted_clubes, sorted_revenues = zip(*paired_clubs_revenues)
 
         def getImage(url):
@@ -4909,11 +4981,13 @@ elif choose == "Análise Comparativa Univariada":
 
         ax.set_xticks([])
 
-        ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
+        #ax.set_xlabel('Clubes', fontsize=20, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (%)', fontsize=20, fontweight='bold')
-        ax.tick_params(axis='y', labelsize=16)
+        ax.tick_params(axis='y', labelsize=16, left=False, labelleft=False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
 
         # Adding text above bars
         for bar in bars:
@@ -4980,7 +5054,7 @@ elif choose == "Análise Comparativa Univariada":
                 ax.plot(years, data, label=club, linewidth=1, linestyle='--', color='black')  # Non-highlighted lines
 
         # Adding titles and labels
-        ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
+        #ax.set_xlabel('Anos', fontsize=14, fontweight='bold')
         ax.set_ylabel(f'{tema_ger} (%)', fontsize=14, fontweight='bold')
         ax.tick_params(axis='y', labelsize=12)
         ax.tick_params(axis='x', labelsize=12)
@@ -5011,7 +5085,7 @@ elif choose == "Análise Comparativa Bivariada":
             result_y = filtered_row_y.iloc[:, 1:20].values.flatten()  # Flattening the result for easy handling
 
             # Plotting using "fig"
-            fig, ax = plt.subplots(figsize=(8, 6))
+            fig, ax = plt.subplots(figsize=(10, 7))
 
             club_image_paths = {club: f'https://raw.githubusercontent.com/JAmerico1898/Financials/49279e3070c69907190ddd0762322bb47fb0eac7/{alt_club}.png'
                     for club, alt_club in zip(clubs['Clubes'], alt_clubs['alt_clubs'])}
@@ -5019,7 +5093,7 @@ elif choose == "Análise Comparativa Bivariada":
                 try:
                     with urllib.request.urlopen(url) as response:
                         img = Image.open(response)
-                        return OffsetImage(img, zoom=0.5)
+                        return OffsetImage(img, zoom=0.65)
                 except Exception as e:
                     st.error(f"Error loading image from {url}: {e}")
                     return None
@@ -5049,7 +5123,7 @@ elif choose == "Análise Comparativa Bivariada":
 
             # Plotting using "fig"
             ax.scatter(result_x, result_y, color='green', alpha=0.5)
-            ax.set_title(f'{eixo_x} vs {eixo_y}', fontsize=15, fontweight='bold')
+            ax.set_title(f'{eixo_x} vs {eixo_y}', fontsize=15, fontweight='bold', pad=25)
             ax.set_xlabel(eixo_x, fontsize=13, fontweight='bold')
             ax.set_ylabel(eixo_y, fontsize=13, fontweight='bold')
             ax.spines['right'].set_visible(False)
@@ -5137,11 +5211,18 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Sócio-Torcedor."
+        note_text_3 = "3. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.43, note_text_3, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
         st.pyplot(fig)        
-
 ######################################################################################################################
 ######################################################################################################################
 
@@ -5230,8 +5311,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -5292,7 +5373,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -5320,7 +5401,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -5341,6 +5422,7 @@ if choose == "Análise Individual - Histórica":
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[1:7, 8], 6:11]
+        st.write(selected_data)
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -5387,6 +5469,13 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -5480,8 +5569,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -5542,7 +5631,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -5570,7 +5659,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -5637,6 +5726,10 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Nota:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -5730,8 +5823,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -5792,7 +5885,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -5820,32 +5913,33 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
         st.pyplot(fig)        
+
 ######################################################################################################################
 ######################################################################################################################
 ######################################################################################################################
 ######################################################################################################################
 
-    if clube == "Corinthians":
-        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+    if clube == "Bahia":
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[1:7, 8], 21:26]
+        selected_data = df3.iloc[np.r_[1:7, 8], 16:21]
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
         # Create a colormap of greens
-        cmap = plt.get_cmap('binary')
+        cmap = plt.get_cmap('Blues')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -5887,6 +5981,14 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Sócio-Torcedor."
+        note_text_3 = "3. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.43, note_text_3, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -5896,12 +5998,12 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[10, 13:15], 21:26]
+        selected_data = df3.iloc[np.r_[10, 13:15], 11:16]
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
-        # Create a colormap of binary
-        cmap = plt.get_cmap('binary')
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Blues')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -5950,19 +6052,19 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 ######################################################################################################################
 
-        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[22:25, 27], 21:26]
+        selected_data = df3.iloc[np.r_[22:25, 27], 11:16]
         selected_data = selected_data.round(1)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
-        # Create a colormap of binary
-        cmap = plt.get_cmap('binary')
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Blues')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -5980,8 +6082,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -6020,12 +6122,12 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[25:27, 31, 33], 21:26]
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 11:16]
         selected_data = selected_data.round(2)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
-        # Create a colormap of binary
-        cmap = plt.get_cmap('binary')
+        # Create a colormap of reds
+        cmap = plt.get_cmap('Blues')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -6042,7 +6144,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -6070,7 +6172,268 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Corinthians":
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 26:31]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 26:31]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        note_text = "Nota:"
+        note_text_1 = "1. O clube não informa com clareza os Gastos com a Base."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 26:31]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 26:31]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of binary
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação Série A", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -6137,6 +6500,12 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -6192,6 +6561,10 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Nota:"
+        note_text_1 = "1. O clube não informa com clareza os Gastos com a Base."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -6200,7 +6573,7 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 ######################################################################################################################
 
-        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -6230,8 +6603,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -6292,7 +6665,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -6320,7 +6693,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -6387,6 +6760,12 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -6480,8 +6859,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -6542,7 +6921,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -6570,258 +6949,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
-        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
-        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
-
-        # Adjust layout and show plot
-        fig.tight_layout()
-        st.pyplot(fig)        
-
-######################################################################################################################
-######################################################################################################################
-######################################################################################################################
-######################################################################################################################
-
-    if clube == "Cruzeiro":
-        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
-        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
-        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
-        st.markdown(markdown_1, unsafe_allow_html=True)
-        st.markdown("---")
-
-        # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[1:7, 8], 36:41]
-        selected_data = selected_data.round(0)
-        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
-
-        # Create a colormap of greens
-        cmap = plt.get_cmap('Blues')
-        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
-
-        # Creating a figure and a set of subplots
-        fig, ax = plt.subplots(figsize=(15, 10))
-
-        # Plotting using ax
-        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
-
-        # Adding value labels on top of each bar
-        for p in ax.patches:
-            # Format the height as integer
-            height = int(p.get_height())  # Convert to integer to avoid decimals
-            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
-                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
-
-        # Setting the labels and title using ax methods
-        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
-                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
-        
-        # Function to break labels into two lines if longer than a given number of characters
-        def adjust_labels(labels, max_len=18):
-            adjusted_labels = []
-            for label in labels:
-                if len(label) > max_len:
-                    # Split the label by spaces and attempt to divide into two roughly equal parts
-                    words = label.split()
-                    midpoint = len(words) // 2
-                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
-                adjusted_labels.append(label)
-            return adjusted_labels
-
-        # Apply the function to custom_labels
-        adjusted_custom_labels = adjust_labels(custom_labels)
-
-        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
-        ax.set_title('Receitas', fontsize=24, fontweight="bold")
-        ax.tick_params(axis='y', labelsize=16)
-        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
-        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-
-        # Adjust layout and show plot
-        fig.tight_layout()
-        st.pyplot(fig)        
-
-######################################################################################################################
-######################################################################################################################
-
-        # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[10, 13:15], 36:41]
-        selected_data = selected_data.round(0)
-        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
-
-        # Create a colormap of Blues
-        cmap = plt.get_cmap('Blues')
-        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
-
-        # Creating a figure and a set of subplots
-        fig, ax = plt.subplots(figsize=(15, 10))
-
-        # Plotting using ax
-        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
-
-        # Adding value labels on top of each bar
-        for p in ax.patches:
-            # Format the height as integer
-            height = int(p.get_height())  # Convert to integer to avoid decimals
-            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
-                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
-
-        # Setting the labels and title using ax methods
-        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
-        
-        # Function to break labels into two lines if longer than a given number of characters
-        def adjust_labels(labels, max_len=18):
-            adjusted_labels = []
-            for label in labels:
-                if len(label) > max_len:
-                    # Split the label by spaces and attempt to divide into two roughly equal parts
-                    words = label.split()
-                    midpoint = len(words) // 2
-                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
-                adjusted_labels.append(label)
-            return adjusted_labels
-
-        # Apply the function to custom_labels
-        adjusted_custom_labels = adjust_labels(custom_labels)
-
-        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
-        ax.set_title('Despesas', fontsize=24, fontweight="bold")
-        ax.tick_params(axis='y', labelsize=16)
-        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
-        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-
-        # Adjust layout and show plot
-        fig.tight_layout()
-        st.pyplot(fig)        
-
-######################################################################################################################
-######################################################################################################################
-
-        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
-        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
-        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
-        st.markdown(markdown_1, unsafe_allow_html=True)
-        st.markdown("---")
-
-        # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[22:25, 27], 36:41]
-        selected_data = selected_data.round(1)
-        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
-
-        # Create a colormap of Blues
-        cmap = plt.get_cmap('Blues')
-        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
-
-        # Creating a figure and a set of subplots
-        fig, ax = plt.subplots(figsize=(15, 10))
-
-        # Plotting using ax
-        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
-
-        for p in ax.patches:
-            # Format the height with one decimal place
-            height = p.get_height()
-            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
-                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
-
-        # Setting the labels and title using ax methods
-        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
-                         "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
-        
-        def adjust_labels(labels, max_len=18):
-            adjusted_labels = []
-            for label in labels:
-                if len(label) > max_len:
-                    # Find the index of the slash in the label
-                    slash_index = label.find('/')
-                    if slash_index != -1:
-                        # Split the label right after the slash and keep the slash at the end of the first line
-                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
-                adjusted_labels.append(label)
-            return adjusted_labels
-
-        # Apply the function to custom_labels
-        adjusted_custom_labels = adjust_labels(custom_labels)
-
-        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
-        #ax.set_title('Índices', fontsize=24, fontweight="bold")
-        ax.tick_params(axis='y', labelsize=16)
-        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
-        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-        # Adding a note below the graph using the axes
-        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
-        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
-        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
-        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
-
-        # Adjust layout and show plot
-        fig.tight_layout()
-        st.pyplot(fig)        
-
-######################################################################################################################
-
-        st.markdown("---")
-
-        # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[25:27, 31, 33], 36:41]
-        selected_data = selected_data.round(2)
-        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
-
-        # Create a colormap of Blues
-        cmap = plt.get_cmap('Blues')
-        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
-
-        # Creating a figure and a set of subplots
-        fig, ax = plt.subplots(figsize=(15, 10))
-
-        # Plotting using ax
-        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
-
-        for p in ax.patches:
-            # Format the height with one decimal place
-            height = p.get_height()
-            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
-                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
-
-        # Setting the labels and title using ax methods
-        custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
-                         "Dívida / Rec Oper Líquida", 
-                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
-        
-        def adjust_labels(labels, max_len=18):
-            adjusted_labels = []
-            for label in labels:
-                if len(label) > max_len:
-                    # Find the index of the slash in the label
-                    slash_index = label.find('/')
-                    if slash_index != -1:
-                        # Split the label right after the slash and keep the slash at the end of the first line
-                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
-                adjusted_labels.append(label)
-            return adjusted_labels
-
-        # Apply the function to custom_labels
-        adjusted_custom_labels = adjust_labels(custom_labels)
-
-        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
-        #ax.set_title('Índices', fontsize=24, fontweight="bold")
-        ax.tick_params(axis='y', labelsize=16)
-        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
-        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-        # Adding a note below the graph using the axes
-        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -6982,8 +7110,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -7044,7 +7172,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -7072,7 +7200,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -7093,7 +7221,7 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[28, 2:7, 8], 51:56]
+        selected_data = df3.iloc[np.r_[1:7, 8], 51:56]
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -7115,7 +7243,7 @@ if choose == "Análise Individual - Histórica":
                         ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
 
         # Setting the labels and title using ax methods
-        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
                  "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
         
         # Function to break labels into two lines if longer than a given number of characters
@@ -7140,6 +7268,12 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -7233,8 +7367,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -7295,7 +7429,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -7323,7 +7457,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -7391,6 +7525,10 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -7484,8 +7622,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -7546,7 +7684,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -7574,7 +7712,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -7595,7 +7733,7 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[28, 2:7, 8], 61:66]
+        selected_data = df3.iloc[np.r_[1:7, 8], 61:66]
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -7617,7 +7755,7 @@ if choose == "Análise Individual - Histórica":
                         ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
 
         # Setting the labels and title using ax methods
-        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
                  "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
         
         # Function to break labels into two lines if longer than a given number of characters
@@ -7642,6 +7780,17 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Match-Day."
+        note_text_3 = "3. O clube não informa com clareza a Receita com Sócio-Torcedor."
+        note_text_4 = "4. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.43, note_text_3, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.49, note_text_4, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -7735,8 +7884,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -7797,7 +7946,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -7825,7 +7974,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -7893,6 +8042,10 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -7986,8 +8139,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -8048,7 +8201,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -8076,7 +8229,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -8144,6 +8297,10 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube não informa com clareza a Receita com Sócio-Torcedor."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -8237,8 +8394,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -8299,7 +8456,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -8327,7 +8484,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -8488,8 +8645,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -8550,7 +8707,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -8578,7 +8735,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -8598,7 +8755,7 @@ if choose == "Análise Individual - Histórica":
         st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
-        selected_data = df3.iloc[np.r_[28, 2:7, 8], 81:86]
+        selected_data = df3.iloc[np.r_[1:7, 8], 81:86]
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
@@ -8620,7 +8777,7 @@ if choose == "Análise Individual - Histórica":
                         ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
 
         # Setting the labels and title using ax methods
-        custom_labels = ["Direitos de transmissão", "Publicidade e patrocínio", "Match-Day", 
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
                  "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
         
         # Function to break labels into two lines if longer than a given number of characters
@@ -8645,6 +8802,14 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Sócio-Torcedor."
+        note_text_3 = "3. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.43, note_text_3, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -8738,8 +8903,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -8800,7 +8965,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -8828,7 +8993,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -8988,8 +9153,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -9050,7 +9215,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -9078,7 +9243,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -9238,8 +9403,8 @@ if choose == "Análise Individual - Histórica":
         # Setting the labels and title using ax methods
         custom_labels = ["Rec Oper Líquida / Base Torcedores", 
                          "Rec Venda Jogadores / Gastos Base", 
-                         "Rec Venda Jogadores / Pontuação",
-                         "Rec Oper Líquida / Pontuação"]
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
         
         def adjust_labels(labels, max_len=18):
             adjusted_labels = []
@@ -9300,7 +9465,7 @@ if choose == "Análise Individual - Histórica":
 
         # Setting the labels and title using ax methods
         custom_labels = ["Receita com Premiação / Folha do Futebol",
-                         "Folha do futebol / Pontuação", 
+                         "Folha do futebol / Pontuação Série A", 
                          "Dívida / Rec Oper Líquida", 
                          "Folha futebol + Compra jogadores / Rec Oper Líquida"]
         
@@ -9328,7 +9493,7 @@ if choose == "Análise Individual - Histórica":
         ax.spines['top'].set_visible(False)
         # Adding a note below the graph using the axes
         note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
-        note_text_2 = "milhões/ponto conquistado e % da Rec Operacional Líquida."
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
         ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
         ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
 
@@ -9407,3 +9572,80 @@ elif choose == "Índice de Transparência":
     leg = ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.01), fontsize=16, frameon=False, ncol=3)
     fig.tight_layout()
     st.pyplot(fig)
+
+    #Detalhando
+    st.markdown("<h4 style='text-align: center;  color: black;'>Detalhando o Índice de Transparência</b></h4>", unsafe_allow_html=True)
+    st.markdown("---")
+
+
+    tabela = df5.iloc[0:4, 1:]
+    tabela.set_index('Clubes', inplace=True)
+    tabela_t = tabela.T
+    # Sort the DataFrame by the last column, descendingly
+    last_column = tabela_t.columns[-1]  # Get the last column name
+    tabela_t = tabela_t.sort_values(by=last_column, ascending=False)
+
+    # Displaying in Streamlit
+    def main():
+        st.title("")
+
+        # Custom CSS for styling (insert your preferred CSS here)
+        st.markdown("""
+        <style>
+        .dataframe-container {
+            font-family: sans-serif;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+        st.dataframe(tabela_t)  # Display the DataFrame
+
+    if __name__ == '__main__':
+        main()
+
+
+    #Acessando a Metodologia do Índice: 
+    st.markdown("<h4 style='text-align: center;  color: black;'>Metodologia do Índice de Transparência</b></h4>", unsafe_allow_html=True)
+
+    #Downloading Transparency Index Methodology
+    button = st.link_button("Metodologia do Índice", 'https://raw.githubusercontent.com/JAmerico1898/Financials/8f06f82388c347f01f80e29763faba52a3931e90/Metodology.pdf')
+
+    def main1():
+
+        # URL of the PDF document
+        # Make sure to use a raw string for the file path
+        pdf_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/8f06f82388c347f01f80e29763faba52a3931e90/Metodology.pdf'
+
+        # Button to open PDF in a new tab
+        if st.link_button('Metodologia do Índice'):
+            # Open URL in a new tab using JavaScript
+            js = f"window.open('{pdf_url}')"  # JavaScript to open a new window/tab
+            st.markdown(f'<img src onerror="{js}">', unsafe_allow_html=True)
+
+    if __name__ == '__main1__':
+        main1()    
+
+elif choose == "Definição das Variáveis":
+    st.markdown("<h4 style='text-align: center;  color: black;'>Definição das Variáveis</b></h4>", unsafe_allow_html=True)
+    st.markdown("---")
+
+    #Downloading Transparency Index Methodology
+    button = st.link_button("Definição das Variáveis", 'https://github.com/JAmerico1898/Financials/blob/65fd2719cd8304e11ede65defe516b53f015d4aa/Variaveis.pdf')
+
+    def main2():
+
+        # URL of the PDF document
+        # Make sure to use a raw string for the file path
+        pdf_url = 'https://github.com/JAmerico1898/Financials/blob/65fd2719cd8304e11ede65defe516b53f015d4aa/Variaveis.pdf'
+
+        # Button to open PDF in a new tab
+        if st.link_button('Definição das Variáveis'):
+            # Open URL in a new tab using JavaScript
+            js = f"window.open('{pdf_url}')"  # JavaScript to open a new window/tab
+            st.markdown(f'<img src onerror="{js}">', unsafe_allow_html=True)
+
+    if __name__ == '__main2__':
+        main2()    
+
+
+
