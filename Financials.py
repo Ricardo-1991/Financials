@@ -12,7 +12,7 @@ from io import BytesIO
 import urllib.request
 from soccerplots.radar_chart import Radar
 import matplotlib.colors as mcolors
-import PyPDF2
+#import PyPDF2
 
 
 
