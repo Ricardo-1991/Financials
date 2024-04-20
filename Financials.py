@@ -134,11 +134,11 @@ temas_x = ["Receita c/ Direitos de transmissão", "Folha do futebol", "Base de T
            ]
 
 with st.container():
-    choose = option_menu("Kit de Análises:", ["Análise Individual - 2023", "Análise Individual - Histórica", 
+    choose = option_menu("Escolha a Ferramenta", ["Análise Individual - 2023", "Análise Individual - Histórica", 
                                                 "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
-                                                "Índice de Transparência", "Definição das Variáveis"],
-                            icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high', 'book'],
-                            menu_icon="tools", default_index=5,
+                                                "Índice de Transparência"],
+                            icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high'],
+                            menu_icon="tools", default_index=1,
                             styles={
                             "container": {"padding": "5!important", "background-color": "#fafafa"},
                             "icon": {"color": "orange", "font-size": "20px"},
@@ -9645,27 +9645,7 @@ elif choose == "Índice de Transparência":
     if __name__ == '__main1__':
         main1()    
 
-elif choose == "Definição das Variáveis":
-    st.markdown("<h4 style='text-align: center;  color: black;'>Definição das Variáveis</b></h4>", unsafe_allow_html=True)
-    st.markdown("---")
 
-    #Downloading Transparency Index Methodology
-    button = st.link_button("Definição das Variáveis", 'https://github.com/JAmerico1898/Financials/blob/65fd2719cd8304e11ede65defe516b53f015d4aa/Variaveis.pdf')
-
-    def main2():
-
-        # URL of the PDF document
-        # Make sure to use a raw string for the file path
-        pdf_url = 'https://github.com/JAmerico1898/Financials/blob/65fd2719cd8304e11ede65defe516b53f015d4aa/Variaveis.pdf'
-
-        # Button to open PDF in a new tab
-        if st.link_button('Definição das Variáveis'):
-            # Open URL in a new tab using JavaScript
-            js = f"window.open('{pdf_url}')"  # JavaScript to open a new window/tab
-            st.markdown(f'<img src onerror="{js}">', unsafe_allow_html=True)
-
-    if __name__ == '__main2__':
-        main2()    
 
 
 
