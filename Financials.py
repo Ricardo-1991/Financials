@@ -138,7 +138,7 @@ with st.container():
                                                 "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
                                                 "Índice de Transparência", "Definição das Variáveis"],
                             icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high', 'book'],
-                            menu_icon="tools", default_index=0,
+                            menu_icon="tools", default_index=1,
                             styles={
                             "container": {"padding": "5!important", "background-color": "#fafafa"},
                             "icon": {"color": "orange", "font-size": "25px"},
