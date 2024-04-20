@@ -5441,7 +5441,6 @@ if choose == "Análise Individual - Histórica":
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[1:7, 8], 6:11]
-        st.write(selected_data)
         selected_data = selected_data.round(0)
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
