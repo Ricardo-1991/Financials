@@ -135,33 +135,34 @@ st.markdown("<h4 style='text-align: center;  color: black;'>Almanaque Financeiro
 st.markdown("<h6 style='text-align: center;  color: black;'>App by @JAmerico1898 </b></h6>", unsafe_allow_html=True)
 st.markdown("---")
 
-mobile_styles = """
-<style>
-@media (max-width: 640px) {
-    .css-1d391kg { /* Adjust the class according to your actual rendered HTML */
-        padding: 0 !important;
-        font-size: 12px !important;
+
+with st.sidebar:
+
+    mobile_styles = """
+    <style>
+    @media (max-width: 640px) {
+        .css-1d391kg { /* Adjust the class according to your actual rendered HTML */
+            padding: 0 !important;
+            font-size: 12px !important;
+        }
     }
-}
-</style>
-"""
-st.markdown(mobile_styles, unsafe_allow_html=True)
+    </style>
+    """
+    st.markdown(mobile_styles, unsafe_allow_html=True)
 
 
-choose = option_menu("Análises:", ["Análise Individual - 2023", "Análise Individual - Histórica", 
-                                                "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
-                                                "Índice de Transparência"],
-                            icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high'],
-                            menu_icon="universal-access", default_index=0,
-                            styles={
-                            "container": {"padding": "4!important", "background-color": "#fafafa"},
-                            "icon": {"color": "orange", "font-size": "18px"},
-                            "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
-                            "nav-link-selected": {"background-color": "#02ab21"},    
-                            }
-                            )    
-
-
+    choose = option_menu("Análises:", ["Análise Individual - 2023", "Análise Individual - Histórica", 
+                                                    "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
+                                                    "Índice de Transparência", "Definição das Variáveis"],
+                                icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high', 'book'],
+                                menu_icon="universal-access", default_index=0,
+                                styles={
+                                "container": {"padding": "4!important", "background-color": "#fafafa"},
+                                "icon": {"color": "orange", "font-size": "18px"},
+                                "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+                                "nav-link-selected": {"background-color": "#02ab21"},    
+                                }
+                                )    
 
 ###############################################################################################################################
 
@@ -9659,7 +9660,27 @@ elif choose == "Índice de Transparência":
     if __name__ == '__main1__':
         main1()    
 
+elif choose == "Definição das Variáveis":
+    st.markdown("<h4 style='text-align: center;  color: black;'>Definição das Variáveis</b></h4>", unsafe_allow_html=True)
+    st.markdown("---")
 
+    #Downloading Transparency Index Methodology
+    button = st.link_button("Definição das Variáveis", 'https://github.com/JAmerico1898/Financials/blob/65fd2719cd8304e11ede65defe516b53f015d4aa/Variaveis.pdf')
+
+    def main2():
+
+        # URL of the PDF document
+        # Make sure to use a raw string for the file path
+        pdf_url = 'https://github.com/JAmerico1898/Financials/blob/65fd2719cd8304e11ede65defe516b53f015d4aa/Variaveis.pdf'
+
+        # Button to open PDF in a new tab
+        if st.link_button('Definição das Variáveis'):
+            # Open URL in a new tab using JavaScript
+            js = f"window.open('{pdf_url}')"  # JavaScript to open a new window/tab
+            st.markdown(f'<img src onerror="{js}">', unsafe_allow_html=True)
+
+    if __name__ == '__main2__':
+        main2()    
 
 
 
