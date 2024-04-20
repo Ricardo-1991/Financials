@@ -133,18 +133,21 @@ temas_x = ["Receita c/ Direitos de transmissão", "Folha do futebol", "Base de T
            "Receita c/ Publicidade e patrocínio", "Receita c/ Match-Day", "Receita c/ Transmissão + Premiações"
            ]
 
-choose = option_menu("Escolha a Ferramenta", ["Análise Individual - 2023", "Análise Individual - Histórica", 
-                                             "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
-                                             "Índice de Transparência", "Definição das Variáveis"],
-                         icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high', 'book'],
-                         menu_icon="tools", default_index=0,
-                         styles={
-                         "container": {"padding": "5!important", "background-color": "#fafafa"},
-                         "icon": {"color": "orange", "font-size": "25px"},
-                         "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
-                         "nav-link-selected": {"background-color": "#02ab21"},    
-                         }
-                         )    
+with st.container():
+    choose = option_menu("Escolha a Ferramenta", ["Análise Individual - 2023", "Análise Individual - Histórica", 
+                                                "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
+                                                "Índice de Transparência", "Definição das Variáveis"],
+                            icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high', 'book'],
+                            menu_icon="tools", default_index=0,
+                            styles={
+                            "container": {"padding": "5!important", "background-color": "#fafafa"},
+                            "icon": {"color": "orange", "font-size": "25px"},
+                            "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+                            "nav-link-selected": {"background-color": "#02ab21"},    
+                            }
+                            )    
+
+
 
 ###############################################################################################################################
 
@@ -5225,6 +5228,7 @@ if choose == "Análise Individual - Histórica":
         st.pyplot(fig)        
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 1:6]
@@ -5483,6 +5487,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 6:11]
@@ -5737,6 +5742,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 11:16]
@@ -5996,6 +6002,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 11:16]
@@ -6253,6 +6260,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 26:31]
@@ -6513,6 +6521,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 26:31]
@@ -6773,6 +6782,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 31:36]
@@ -7024,6 +7034,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 46:51]
@@ -7281,6 +7292,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 51:56]
@@ -7536,6 +7548,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 56:61]
@@ -7798,6 +7811,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 61:66]
@@ -8053,6 +8067,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 66:71]
@@ -8308,6 +8323,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 71:76]
@@ -8559,6 +8575,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 76:81]
@@ -8817,6 +8834,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 81:86]
@@ -9067,6 +9085,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 86:91]
@@ -9317,6 +9336,7 @@ if choose == "Análise Individual - Histórica":
 
 ######################################################################################################################
 ######################################################################################################################
+        st.markdown("---")
 
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[10, 13:15], 91:96]
