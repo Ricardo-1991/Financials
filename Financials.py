@@ -134,14 +134,14 @@ temas_x = ["Receita c/ Direitos de transmissão", "Folha do futebol", "Base de T
            ]
 
 with st.container():
-    choose = option_menu("Escolha a Ferramenta", ["Análise Individual - 2023", "Análise Individual - Histórica", 
+    choose = option_menu("Análises:", ["Análise Individual - 2023", "Análise Individual - Histórica", 
                                                 "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
                                                 "Índice de Transparência"],
                             icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high'],
                             menu_icon="tools", default_index=1,
                             styles={
                             "container": {"padding": "5!important", "background-color": "#fafafa"},
-                            "icon": {"color": "orange", "font-size": "20px"},
+                            "icon": {"color": "orange", "font-size": "18px"},
                             "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
                             "nav-link-selected": {"background-color": "#02ab21"},    
                             }
