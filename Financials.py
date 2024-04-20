@@ -12,9 +12,9 @@ from io import BytesIO
 import urllib.request
 from soccerplots.radar_chart import Radar
 import matplotlib.colors as mcolors
-#import PyPDF2
 
-
+st.markdown("<h4 style='text-align: center;  color: black;'>Almanaque Financeiro da Série A<br>2023 </b></h4>", unsafe_allow_html=True)
+st.markdown("---")
 
 # Setup our colours
 color_link = ['#000000', '#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46',
@@ -133,11 +133,11 @@ temas_x = ["Receita c/ Direitos de transmissão", "Folha do futebol", "Base de T
            "Receita c/ Publicidade e patrocínio", "Receita c/ Match-Day", "Receita c/ Transmissão + Premiações"
            ]
 
-choose = option_menu("Galeria de Apps", ["Análise Individual - 2023", "Análise Individual - Histórica", 
+choose = option_menu("Escolha a Ferramenta", ["Análise Individual - 2023", "Análise Individual - Histórica", 
                                              "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
                                              "Índice de Transparência", "Definição das Variáveis"],
-                         icons=['graph-up-arrow', 'graph-up-arrow', 'magic', 'book', 'book', 'book'],
-                         menu_icon="app-indicator", default_index=0,
+                         icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high', 'book'],
+                         menu_icon="tools", default_index=0,
                          styles={
                          "container": {"padding": "5!important", "background-color": "#fafafa"},
                          "icon": {"color": "orange", "font-size": "25px"},
@@ -149,7 +149,7 @@ choose = option_menu("Galeria de Apps", ["Análise Individual - 2023", "Análise
 ###############################################################################################################################
 
 if choose == "Análise Individual - 2023":
-    clube = st.selectbox("Escolha o Clube", options=clubes, index=None)
+    clube = st.selectbox("Escolha o Clube", options=clubes, index=None, placeholder="Escolha o Clube!")
     fontsize = 24
     if clube == "Palmeiras":
         markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
