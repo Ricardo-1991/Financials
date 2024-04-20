@@ -13,8 +13,6 @@ import urllib.request
 from soccerplots.radar_chart import Radar
 import matplotlib.colors as mcolors
 
-st.markdown("<h4 style='text-align: center;  color: black;'>Almanaque Financeiro da Série A<br>2023 </b></h4>", unsafe_allow_html=True)
-st.markdown("---")
 
 # Setup our colours
 color_link = ['#000000', '#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46',
@@ -133,15 +131,31 @@ temas_x = ["Receita c/ Direitos de transmissão", "Folha do futebol", "Base de T
            "Receita c/ Publicidade e patrocínio", "Receita c/ Match-Day", "Receita c/ Transmissão + Premiações"
            ]
 
-with st.container():
-    choose = option_menu("Análises:", ["Análise Individual - 2023", "Análise Individual - Histórica", 
+st.markdown("<h4 style='text-align: center;  color: black;'>Almanaque Financeiro da Série A<br>2023 </b></h4>", unsafe_allow_html=True)
+st.markdown("<h6 style='text-align: center;  color: black;'>App by @JAmerico1898 </b></h6>", unsafe_allow_html=True)
+st.markdown("---")
+
+mobile_styles = """
+<style>
+@media (max-width: 640px) {
+    .css-1d391kg { /* Adjust the class according to your actual rendered HTML */
+        padding: 0 !important;
+        font-size: 12px !important;
+    }
+}
+</style>
+"""
+st.markdown(mobile_styles, unsafe_allow_html=True)
+
+
+choose = option_menu("Escolha a Ferramenta", ["Análise Individual - 2023", "Análise Individual - Histórica", 
                                                 "Análise Comparativa Univariada", "Análise Comparativa Bivariada",
                                                 "Índice de Transparência"],
                             icons=['graph-up-arrow', 'zoom-in', 'binoculars', 'magic', 'brightness-high'],
-                            menu_icon="tools", default_index=1,
+                            menu_icon="tools", default_index=0,
                             styles={
-                            "container": {"padding": "5!important", "background-color": "#fafafa"},
-                            "icon": {"color": "orange", "font-size": "18px"},
+                            "container": {"padding": "4!important", "background-color": "#fafafa"},
+                            "icon": {"color": "orange", "font-size": "20px"},
                             "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
                             "nav-link-selected": {"background-color": "#02ab21"},    
                             }
