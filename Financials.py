@@ -6301,7 +6301,7 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 
     if clube == "Bahia":
-        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -6427,7 +6427,7 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 ######################################################################################################################
 
-        markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -7207,7 +7207,7 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 ######################################################################################################################
 
-        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -9257,7 +9257,7 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 ######################################################################################################################
 
-        markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        markdown_1 = f"<div style='text-align:center;  color: gray; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
@@ -9994,7 +9994,7 @@ elif choose == "Índice de Transparência":
     st.markdown("<h4 style='text-align: center;  color: black;'>Metodologia do Índice de Transparência</b></h4>", unsafe_allow_html=True)
 
     #Downloading Transparency Index Methodology
-    button = st.link_button("Metodologia do Índice", 'https://raw.githubusercontent.com/JAmerico1898/Financials/8f06f82388c347f01f80e29763faba52a3931e90/Metodology.pdf')
+    button = st.link_button("Metodologia do Índice", 'https://raw.githubusercontent.com/JAmerico1898/Financials/55e6685a50b56052dbb6ba674c963a1426044435/Indice%20de%20Transparencia%20-%20Metodologia.pdf')
 
     def main1():
 
