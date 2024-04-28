@@ -75,10 +75,10 @@ clubs = pd.read_csv("clubes.csv")
 alt_clubs = pd.read_csv("alt_clubes.csv")
 
 # Defining clubes
-clubes = ["Vasco", "América", "Athletico", "Atlético", "Bahia", "Botafogo", 
+clubes = ["América", "Athletico", "Atlético", "Bahia", "Botafogo", 
           "Corinthians", "Coritiba", "Cruzeiro", "Cuiabá", "Flamengo", 
           "Fluminense", "Fortaleza", "Grêmio", "Goiás", "Internacional", 
-          "Palmeiras", "Santos", "São Paulo"]
+          "Palmeiras", "Santos", "São Paulo", "Vasco"]
 
 # Defining labels_resultado
 label = ["Direitos de transmissão", "Publicidade e patrocínio", "Arrecadação de jogos", 
