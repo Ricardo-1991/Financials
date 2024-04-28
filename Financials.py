@@ -75,10 +75,10 @@ clubs = pd.read_csv("clubes.csv")
 alt_clubs = pd.read_csv("alt_clubes.csv")
 
 # Defining clubes
-clubes = ["América", "Athletico", "Atlético", "Bahia", "Botafogo", 
+clubes = ["Vasco", "América", "Athletico", "Atlético", "Bahia", "Botafogo", 
           "Corinthians", "Coritiba", "Cruzeiro", "Cuiabá", "Flamengo", 
           "Fluminense", "Fortaleza", "Grêmio", "Goiás", "Internacional", 
-          "Palmeiras", "Santos", "São Paulo", "Vasco"]
+          "Palmeiras", "Santos", "São Paulo"]
 
 # Defining labels_resultado
 label = ["Direitos de transmissão", "Publicidade e patrocínio", "Arrecadação de jogos", 
@@ -182,9 +182,9 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 16, 16, 16, 16, 16, 16, 17, 17] #19 sources
-        target = [6, 6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 18, 19] #19 targets
-        value = df.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 18, 19], np.r_[16]].astype(int) #19 values
+        source = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,   9, 16, 16, 16, 16, 14, 16, 17, 17] #19 sources
+        target = [6, 6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 16, 15, 18, 19] #19 targets
+        value = df.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 16, 10, 14, 12, 13, 14, 15, 18, 19], np.r_[16]].astype(int) #19 values
         dfa = df.iloc[:, np.r_[16]].astype(int)
             
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -192,8 +192,8 @@ if choose == "Análise Individual - 2023":
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.30, 0.375, 0.375, 0.45, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.60, 0.85, 0.95, 0.95]
-        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.13, 0.20, 0.40, 0.00, -0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.00, -0.20, -0.20, 0.10]
+        x = [0.15, 0.15,   0.15, 0.15, 0.15, 0.15, 0.30, 0.375, 0.375, 0.45, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.60,  0.85, 0.95, 0.95]
+        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.13, 0.20, 0.40, 0.00, -0.05, 0.20, 0.35, 0.50, 0.80, 0.65, 0.20, -0.20, -0.20, 0.10]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
@@ -264,8 +264,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.40, y=1.39, xanchor='left', showarrow=False, text='<b>RECEITA<br>OPERACIONAL<BR>LÍQUIDA</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.45, y=1.23, showarrow=False, text=f'<b>{dfa.iat[9,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.56, y=0.83, xanchor='left', showarrow=False, text='<b>DESPESAS</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.595, y=0.77, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.56, y=1.08, xanchor='left', showarrow=False, text='<b>DESPESAS</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.595, y=1.02, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=1.15, xanchor='left', showarrow=False, text='<b>Pessoal e<br>encargos</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.825, y=1.04, showarrow=False, text=f'<b>{dfa.iat[10,0]}</b>'))
@@ -279,11 +279,11 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.505, xanchor='left', showarrow=False, text='<b>Despesas gerais<br>e administrativas</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.85, y=0.425, showarrow=False, text=f'<b>{dfa.iat[13,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.35, xanchor='left', showarrow=False, text='<b>Depreciação<br>amortização</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.83, y=0.25, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.36, xanchor='left', showarrow=False, text='<b>Outras despesas</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.85, y=0.27, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.16, xanchor='left', showarrow=False, text='<b>Outras despesas</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.855, y=0.10, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.16, xanchor='left', showarrow=False, text='<b>Depreciação<br>amortização</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.835, y=0.10, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.80, y=1.38, xanchor='left', showarrow=False, text='<b>RESULTADO<br>OPERACIONAL</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.87, y=1.28, showarrow=False, text=f'<b>{dfa.iat[17,0]}</b>'))
@@ -339,13 +339,13 @@ if choose == "Análise Individual - 2023":
         # Node Colors
         color_for_nodes =['steelblue', 'steelblue', 'steelblue', 'steelblue', 'steelblue', 
                           'steelblue', 'steelblue', 'steelblue', 'maroon', 'maroon', 'maroon', 
-                          'maroon', 'maroon', 'maroon', 'maroon', 'limegreen', 'maroon',
+                          'maroon', 'maroon', 'maroon', 'steelblue', 'limegreen', 'maroon',
                           'maroon', 'maroon', 'maroon', 'maroon']
             
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'Lime',
                           'indianred', 'indianred', 'indianred', 'indianred',
-                          'indianred', 'indianred', 'indianred', 'indianred', 'indianred',
+                          'indianred', 'indianred', 'LightSkyBlue', 'indianred', 'indianred',
                           'indianred', 'indianred', 'indianred', 'indianred']
 
         fig = go.Figure(data=[go.Sankey(
@@ -463,7 +463,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df.iloc[np.r_[21, 0, 4, 1:4, 7, 22], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[1:5, 6:8, 22, 26, 47], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -472,6 +472,13 @@ if choose == "Análise Individual - 2023":
         # Rename the first column to 'clubs'
         dfb_transposed.index.name = 'Clubes'
         dfb = dfb_transposed
+        # Renaming Columns
+        dfb = dfb.rename(columns={"Receita c/ Publicidade e patrocínio": "Publicidade/patrocínio",
+                                  "Receita c/ Match-Day": "Match-Day",
+                                  "Receita c/ Sócio-torcedor": "Sócio-Torcedor",
+                                  "Receita c/ Negociação de atletas": "Venda de jogadores",
+                                  "Receita c/ Direitos de transmissão": "Direitos de transmissão" 
+                                  })
         # Preparing the Graph
         params = list(dfb.columns)
         params = params[0:]
@@ -541,8 +548,8 @@ if choose == "Análise Individual - 2023":
         # Defining labels, sources and targets
 
         source = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 16, 16, 16, 16, 16, 16, 18, 17] #19 sources
-        target = [6, 6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 17, 19] #19 targets
-        value = df.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 18, 19], np.r_[10]].astype(int) #19 values
+        target = [6, 6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 19, 19] #19 targets
+        value = df.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 18, 17], np.r_[10]].astype(int) #19 values
         dfa = df.iloc[:, np.r_[10]].astype(int)
             
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -550,8 +557,8 @@ if choose == "Análise Individual - 2023":
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.30, 0.375, 0.375, 0.45, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.60, 0.85, 0.95, 0.95]
-        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.13, 0.20, 0.40, 0.00, -0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.05, -0.20, -0.20, 0.10]
+        x = [0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.30, 0.375, 0.375, 0.45, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.60, 0.70, 0.95, 0.80]
+        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.11, 0.20, 0.40, 0.00, 0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.05, -0.20, -0.20, -0.20]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
@@ -625,8 +632,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.56, y=0.82, xanchor='left', showarrow=False, text='<b>DESPESAS</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.595, y=0.76, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=1.15, xanchor='left', showarrow=False, text='<b>Pessoal e<br>encargos</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.825, y=1.04, showarrow=False, text=f'<b>{dfa.iat[10,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=1.05, xanchor='left', showarrow=False, text='<b>Pessoal e<br>encargos</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.825, y=0.94, showarrow=False, text=f'<b>{dfa.iat[10,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.88, xanchor='left', showarrow=False, text='<b>Direitos de<br>imagem</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.83, y=0.78, showarrow=False, text=f'<b>{dfa.iat[11,0]}</b>'))
@@ -641,16 +648,16 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.25, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.16, xanchor='left', showarrow=False, text='<b>Outras despesas</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.855, y=0.10, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.845, y=0.10, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.80, y=1.39, xanchor='left', showarrow=False, text='<b>RESULTADO<br>OPERACIONAL</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.865, y=1.30, showarrow=False, text=f'<b>{dfa.iat[17,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.65, y=1.39, xanchor='left', showarrow=False, text='<b>RESULTADO<br>OPERACIONAL</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.715, y=1.30, showarrow=False, text=f'<b>{dfa.iat[17,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.91, y=1.38, xanchor='left', showarrow=False, text='<b>RESULTADO<br>FINANCEIRO</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.96, y=1.28, showarrow=False, text=f'<b>{dfa.iat[18,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.92, y=1.06, xanchor='left', showarrow=False, text='<b>RESULTADO</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.97, y=1.02, showarrow=False, text=f'<b>{dfa.iat[19,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.76, y=1.35, xanchor='left', showarrow=False, text='<b>RESULTADO</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.81, y=1.30, showarrow=False, text=f'<b>{dfa.iat[19,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -679,9 +686,9 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 3, 4, 5, 6,  7,  7,  8,  8,   8,  8,  8, 8, 15, 15, 15, 16, 16, 16] #21 sources
-        target =              [7, 7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13, 14, 16, 20, 21, 17, 18, 19] #21 targets
-        value = df2.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 16, 20, 21, 17, 18, 19], np.r_[16]].astype(int) #19 values
+        source =              [0, 1, 2, 3, 4, 5, 6,  7,  7,  8,  8,   8,  8,  8, 8, 15,  15, 21, 16, 16, 16] #21 sources
+        target =              [7, 7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13, 14, 16, 20, 20, 17, 18, 19] #21 targets
+        value = df2.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 16, 23, 21, 17, 18, 19], np.r_[10]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[10]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
         node = dict(label = label_caixa, pad=35, thickness=20)
@@ -793,8 +800,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.58, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.52, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.39, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.28, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.37, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.26, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -820,7 +827,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df.iloc[np.r_[21, 0, 4, 1:4, 7, 22], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[1:5, 6:8, 22, 26, 47], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -829,6 +836,13 @@ if choose == "Análise Individual - 2023":
         # Rename the first column to 'clubs'
         dfb_transposed.index.name = 'Clubes'
         dfb = dfb_transposed
+        # Renaming Columns
+        dfb = dfb.rename(columns={"Receita c/ Publicidade e patrocínio": "Publicidade/patrocínio",
+                                  "Receita c/ Match-Day": "Match-Day",
+                                  "Receita c/ Sócio-torcedor": "Sócio-Torcedor",
+                                  "Receita c/ Negociação de atletas": "Venda de jogadores",
+                                  "Receita c/ Direitos de transmissão": "Direitos de transmissão" 
+                                  })
         # Preparing the Graph
         params = list(dfb.columns)
         params = params[0:]
@@ -888,6 +902,87 @@ if choose == "Análise Individual - 2023":
 ###############################################################################################################################################
 ###############################################################################################################################################
 
+    elif clube == "Vasco":
+        markdown_1 = f"<div style='text-align:center;  color: black   ; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Demonstração de Resultado</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        def main():
+            # URL of the image (make sure it's the raw version if it's hosted on GitHub)
+            image_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/975782cba0c76542a7d5a3c8287c3eda0ad132b3/vasco_1.png'
+
+            # Fetch the image
+            response = requests.get(image_url)
+            image = Image.open(BytesIO(response.content))
+
+            # Display the image
+            col1, col2, col3 = st.columns([1,2,1])
+            with col2:  # Use the middle column to display the image
+                st.image(image, caption='', use_column_width=True)
+
+        if __name__ == "__main__":
+            main()        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        def main():
+            # URL of the image (make sure it's the raw version if it's hosted on GitHub)
+            image_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/975782cba0c76542a7d5a3c8287c3eda0ad132b3/vasco_5.jpg'
+
+            # Fetch the image
+            response = requests.get(image_url)
+            image = Image.open(BytesIO(response.content))
+
+            # Display the image
+            col1, col2, col3 = st.columns([1,2,1])
+            with col2:  # Use the middle column to display the image
+                st.image(image, caption='', use_column_width=True)
+
+        if __name__ == "__main__":
+            main()        
+
+
+
+###############################################################################################################################################
+###############################################################################################################################################
+###############################################################################################################################################
+###############################################################################################################################################
 
     elif clube == "Grêmio":
         markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
@@ -898,9 +993,9 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 3, 5, 6, 7, 8, 9,   9, 16, 16, 16, 16, 16, 16, 18, 19] #18 sources
-        target =              [6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 17, 18] #18 targets
-        value = df.iloc[np.r_[21, 1, 2, 3, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 18, 19], np.r_[13]].astype(int) #18 values
+        source =              [0, 1, 2, 3, 5, 6, 7, 8, 9,   9, 16, 16, 16, 16, 16, 16, 17, 19] #18 sources
+        target =              [6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 18, 18] #18 targets
+        value = df.iloc[np.r_[21, 1, 2, 3, 5, 6, 7, 8, 17, 9, 10, 11, 12, 13, 14, 15, 17, 19], np.r_[13]].astype(int) #18 values
         dfa = df.iloc[:, np.r_[13]].astype(int)
             
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -1035,17 +1130,17 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 3, 5, 6,  7,  7,  8,  8,   8,  8,  8, 14, 15, 15, 15, 16, 16, 16] #21 sources
-        target =              [7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13,  8, 16, 20, 21, 17, 18, 19] #21 targets
-        value = df2.iloc[np.r_[0, 1, 2, 3, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 16, 20, 21, 17, 18, 19], np.r_[13]].astype(int) #19 values
+        source =              [0, 1, 2, 3, 5, 6,  7,  7,  8,  8,   8,  8,  8, 14, 15, 21, 21, 16, 16, 16] #21 sources
+        target =              [7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13,  8, 16, 20, 16, 17, 18, 19] #21 targets
+        value = df2.iloc[np.r_[0, 1, 2, 3, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 15, 20, 23, 17, 18, 19], np.r_[13]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[13]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
         node = dict(label = label_caixa, pad=35, thickness=20)
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15, 0.15, 0.15, 0.15, 0.15,   0.15, 0.30, 0.42, 0.55, 0.55, 0.55, 0.55,  0.55,  0.35, 0.55,  0.78, 0.92, 0.92, 0.92, 0.78, 0.78]
-        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.05, 0.35, 0.45, 0.60, 0.75, 0.90, 1.15,  0.90, -0.20, -0.10, 0.05, 0.20, 0.35, 0.50, 0.65]
+        x = [0.15, 0.15, 0.15, 0.15, 0.15,   0.15, 0.30, 0.42, 0.55, 0.55, 0.55, 0.55,  0.55,  0.35, 0.55,  0.78, 0.92, 0.92, 0.92, 0.78, 0.62]
+        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.05, 0.35, 0.45, 0.60, 0.75, 0.90, 1.15,  0.90, -0.20, -0.10, 0.05, 0.20, 0.35, 0.50, 0.20]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
@@ -1053,7 +1148,7 @@ if choose == "Análise Individual - 2023":
         color_for_nodes =['steelblue', 'steelblue', 'steelblue', 'steelblue', 'steelblue', 
                           'steelblue', 'steelblue', 'steelblue', 'maroon', 'maroon', 'maroon', 
                           'maroon', 'maroon', 'maroon', 'maroon', 'limegreen', 'maroon',
-                          'maroon', 'maroon', 'maroon', 'maroon']
+                          'maroon', 'maroon', 'maroon', 'maroon', 'maroon']
             
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'LightSkyBlue', 'Lime', 'indianred',
@@ -1107,8 +1202,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.26, y=1.39, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE<br>CAIXA TOTAL</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.285, y=1.29, showarrow=False, text=f'<b>{dfa.iat[7,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.375, y=0.94, xanchor='left', showarrow=False, text='<b>SAÍDAS DE CAIXA<br>OPERACIONAIS</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.42, y=0.85, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.375, y=0.95, xanchor='left', showarrow=False, text='<b>SAÍDAS DE CAIXA<br>OPERACIONAIS</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.42, y=0.86, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.50, y=1.385, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE CAIXA<br>OPERACIONAL</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.55, y=1.30, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
@@ -1146,8 +1241,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.58, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.52, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.41, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.29, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.53, y=0.96, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.60, y=0.86, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -1173,7 +1268,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df.iloc[np.r_[21, 0, 4, 1:4, 7, 22], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[0:4, 6:8, 22, 26], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -1182,6 +1277,15 @@ if choose == "Análise Individual - 2023":
         # Rename the first column to 'clubs'
         dfb_transposed.index.name = 'Clubes'
         dfb = dfb_transposed
+        # Renaming Columns
+        dfb = dfb.rename(columns={"Receita c/ Publicidade e patrocínio": "Publicidade/patrocínio",
+                                  "Receita c/ Match-Day": "Match-Day",
+                                  "Receita c/ Sócio-torcedor": "Sócio-Torcedor",
+                                  "Receita c/ Negociação de atletas": "Venda de jogadores",
+                                  "Receita c/ Transmissão + Premiações": "Transmissão/Premiações",
+                                  "RECEITA RECORRENTE": "Receita Recorrente" 
+                                  })
+
         # Preparing the Graph
         params = list(dfb.columns)
         params = params[0:]
@@ -1389,28 +1493,28 @@ if choose == "Análise Individual - 2023":
 
         source =              [0, 1, 2, 5, 6, 7, 8,  8,  8,  8,  8,  8, 7,  15,  15, 16, 16, 21  ] #18 sources
         target =              [7, 7, 7, 7, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 17, 18, 20 ] #18 targets
-        value = df2.iloc[np.r_[0, 1, 2, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 17, 18, 20], np.r_[17]].astype(int) #19 values
+        value = df2.iloc[np.r_[0, 1, 2, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23, 17, 18, 21], np.r_[17]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[17]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
         node = dict(label = label_caixa, pad=35, thickness=20)
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15,   0.15, 0.15, 0.15, 0.15, 0.30, 0.45, 0.55, 0.55, 0.55, 0.55,  0.55,  0.35, 0.55,  0.78, 0.92, 0.92, 0.78, 0.92]
-        y = [-0.22,  0.00, 0.22, 0.44, 0.66, -0.10, 0.30, 0.45, 0.60, 0.75, 0.90, 1.15,  0.90, -0.20, -0.10, 0.05, 0.20, 0.35, 0.50]
+        x = [0.15,   0.15, 0.15, 0.15, 0.15, 0.30, 0.45, 0.55, 0.55, 0.55, 0.55,  0.55,  0.35, 0.55,  0.78, 0.92, 0.92, 0.92, 0.78]
+        y = [-0.22,  0.00, 0.22, 0.44, 0.66, -0.10, 0.30, 0.45, 0.60, 0.75, 0.90, 1.15,  0.90, -0.20, -0.10, 0.05, 0.20, 0.50, 0.70]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
         # Node Colors
         color_for_nodes =['steelblue', 'steelblue', 'steelblue', 'steelblue', 'steelblue',
                           'steelblue', 'steelblue', 'blue', 'maroon', 'maroon', 'maroon', 
-                          'maroon', 'maroon', 'maroon', 'maroon', 'Lime', 'maroon', 'maroon',
+                          'maroon', 'maroon', 'maroon', 'steelblue', 'Lime', 'maroon', 'maroon',
                           'maroon', 'maroon', 'maroon', 'maroon'
                           ]
             
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'indianred', 'indianred', 'indianred', 'indianred',
-                          'indianred', 'indianred', 'indianred', 'Limegreen', 'indianred',
+                          'indianred', 'indianred', 'LightSkyBlue', 'Limegreen', 'indianred',
                           'indianred', 'indianred', 'indianred', 'indianred', 'indianred']
 
         fig = go.Figure(data=[go.Sankey(
@@ -1478,7 +1582,7 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.62, y=-0.2, showarrow=False, text=f'<b>{dfa.iat[13,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.22, y=0.13, xanchor='left', showarrow=False, text='<b>Ajuste na Geração de<br>Caixa Operacional</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.28, y=0.07, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.28, y=0.07, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.72, y=1.31, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A INVESTIMENTOS</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.79, y=1.21, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
@@ -1489,11 +1593,11 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.92, y=0.92, xanchor='left', showarrow=False, text='<b>Compra de<br>Imobilizado</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.97, y=0.82, showarrow=False, text=f'<b>{dfa.iat[18,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.72, y=0.82, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.79, y=0.73, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.85, y=0.64, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.93, y=0.56, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.85, y=0.64, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.93, y=0.56, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.70, y=0.41, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.78, y=0.31, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -1519,7 +1623,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df.iloc[np.r_[21, 0, 4, 1:4, 7, 22], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[0:4, 6:8, 22, 26], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -1528,6 +1632,14 @@ if choose == "Análise Individual - 2023":
         # Rename the first column to 'clubs'
         dfb_transposed.index.name = 'Clubes'
         dfb = dfb_transposed
+        # Renaming Columns
+        dfb = dfb.rename(columns={"Receita c/ Publicidade e patrocínio": "Publicidade/patrocínio",
+                                  "Receita c/ Match-Day": "Match-Day",
+                                  "Receita c/ Sócio-torcedor": "Sócio-Torcedor",
+                                  "Receita c/ Negociação de atletas": "Venda de jogadores",
+                                  "Receita c/ Transmissão + Premiações": "Transmissão/Premiações",
+                                  "RECEITA RECORRENTE": "Receita Recorrente" 
+                                  })
         # Preparing the Graph
         params = list(dfb.columns)
         params = params[0:]
@@ -1599,8 +1711,8 @@ if choose == "Análise Individual - 2023":
         # Defining labels, sources and targets
 
         source =              [0, 1, 2, 3, 6, 7, 8,  9, 16, 16, 16, 16, 16, 16, 17, 23, 17, 17, 17] #17 sources
-        target =              [6, 6, 6, 6, 9, 9, 9, 16, 10, 11, 12, 13, 14, 15, 9, 17, 24, 18, 19] #17 targets
-        value = df.iloc[np.r_[ 0, 1, 2, 3, 6, 7, 8, 16, 10, 11, 12, 13, 14, 15, 25, 23, 24, 18, 19], np.r_[7]].astype(int) #18 values
+        target =              [6, 6, 6, 6, 9, 9, 9, 16, 10, 11, 12, 13, 14, 15, 16, 17, 24, 18, 19] #17 targets
+        value = df.iloc[np.r_[ 0, 1, 2, 3, 6, 7, 8,  9, 10, 11, 12, 13, 14, 15, 25, 23, 24, 18, 19], np.r_[7]].astype(int) #18 values
         dfa = df.iloc[:, np.r_[7]].astype(int)
             
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -1608,8 +1720,8 @@ if choose == "Análise Individual - 2023":
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15,  0.15, 0.15, 0.15,  0.295, 0.35,  0.35, 0.425,  0.75, 0.75, 0.75, 0.75, 0.75, 0.60, 0.60, 0.75, 0.80, 0.47, 0.75]
-        y = [-0.23, 0.00, 0.20, 0.40, -0.05,  0.20,   0.40,  0.15, 0.15, 0.30, 0.45, 0.60, 0.75, 0.30, -0.10, -0.10, -0.23, -0.25, 0.00]
+        x = [0.15,  0.15, 0.15, 0.15,  0.295, 0.35,  0.35, 0.425,  0.75, 0.75, 0.75, 0.75, 0.75, 0.60, 0.52, 0.75, 0.80, 0.42, 0.75]
+        y = [-0.23, 0.00, 0.20, 0.40, -0.05,  0.20,   0.40,  0.20, 0.15, 0.30, 0.45, 0.60, 0.75, 0.30, -0.15, -0.10, -0.23, -0.25, 0.00]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
@@ -1623,7 +1735,7 @@ if choose == "Análise Individual - 2023":
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'indianred',
                           'indianred', 'indianred', 'indianred', 'indianred',
-                          'indianred', 'indianred', 'Lime', 'darkgrey', 'indianred',
+                          'indianred', 'indianred', 'indianred', 'darkgrey', 'indianred',
                           'indianred', 'Lime']
 
         fig = go.Figure(data=[go.Sankey(
@@ -1660,8 +1772,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=11), x=0.02, y=0.87, xanchor='left', showarrow=False, text='<b>Arrecadação<br>de jogos</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.06, y=0.75, showarrow=False, text=f'<b>{dfa.iat[2,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=11), x=0.02, y=0.62, xanchor='left', showarrow=False, text='<b>Licenciamento<br>da marca</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.065, y=0.54, showarrow=False, text=f'<b>{dfa.iat[5,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=11), x=0.04, y=0.62, xanchor='left', showarrow=False, text='<b>Sócio<br>Torcedor</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.065, y=0.54, showarrow=False, text=f'<b>{dfa.iat[3,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.25, y=1.255, xanchor='left', showarrow=False, text='<b>RECEITA<br>RECORRENTE</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.28, y=1.16, showarrow=False, text=f'<b>{dfa.iat[6,0]}</b>'))
@@ -1672,11 +1784,14 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=11), x=0.26, y=0.68, xanchor='left', showarrow=False, text='<b>Outras<br>receitas</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.28, y=0.54, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.375, y=1.16, xanchor='left', showarrow=False, text='<b>RECEITA<br>OPERACIONAL<BR>LÍQUIDA</b>'))
-        fig.add_annotation(dict(font=dict(color="Limegreen", size=10), x=0.425, y=1.02, showarrow=False, text=f'<b>{dfa.iat[9,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.375, y=1.08, xanchor='left', showarrow=False, text='<b>RECEITA<br>OPERACIONAL<BR>LÍQUIDA</b>'))
+        fig.add_annotation(dict(font=dict(color="Limegreen", size=10), x=0.425, y=0.94, showarrow=False, text=f'<b>{dfa.iat[9,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.56, y=0.91, xanchor='left', showarrow=False, text='<b>DESPESAS</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.6, y=0.87, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.56, y=0.56, xanchor='left', showarrow=False, text='<b>DESPESAS</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.6, y=0.52, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
+
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.57, y=1.03, xanchor='left', showarrow=False, text='<b>Perda<br>Oper<BR>Líquida</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.6, y=0.90, showarrow=False, text=f'<b>{dfa.iat[25,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.93, xanchor='left', showarrow=False, text='<b>Pessoal e<br>encargos</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.82, y=0.83, showarrow=False, text=f'<b>{dfa.iat[10,0]}</b>'))
@@ -1693,8 +1808,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.78, y=0.25, xanchor='left', showarrow=False, text='<b>Outras despesas</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.18, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.55, y=1.38, xanchor='left', showarrow=False, text='<b>RESULTADO<br>OPERACIONAL</b>'))
-        fig.add_annotation(dict(font=dict(color="Limegreen", size=10), x=0.60, y=1.28, showarrow=False, text=f'<b>{dfa.iat[17,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.475, y=1.38, xanchor='left', showarrow=False, text='<b>RESULTADO<br>OPERACIONAL</b>'))
+        fig.add_annotation(dict(font=dict(color="Limegreen", size=10), x=0.52, y=1.28, showarrow=False, text=f'<b>{dfa.iat[17,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.79, y=1.15, xanchor='left', showarrow=False, text='<b>RESULTADO<br>FINANCEIRO</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.90, y=1.13, showarrow=False, text=f'<b>{dfa.iat[18,0]}</b>'))
@@ -1705,8 +1820,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.79, y=1.05, xanchor='left', showarrow=False, text='<b>Outras Despesas<br>Operacionais</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.93, y=1.02, showarrow=False, text=f'<b>{dfa.iat[24,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.35, y=1.38, xanchor='left', showarrow=False, text='<b>VENDA DE DIREITOS<BR>LIGA FORTE</b>'))
-        fig.add_annotation(dict(font=dict(color="Limegreen", size=10), x=0.41, y=1.28, showarrow=False, text=f'<b>{dfa.iat[23,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.295, y=1.38, xanchor='left', showarrow=False, text='<b>VENDA DE DIREITOS<BR>LIGA FORTE</b>'))
+        fig.add_annotation(dict(font=dict(color="grey", size=10), x=0.36, y=1.28, showarrow=False, text=f'<b>{dfa.iat[23,0]}</b>'))
 
     
 
@@ -1739,30 +1854,30 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 3, 6, 22, 7, 8,  8,  8,  8,  8,  8, 7,  15, 15, 16, 16, 21  ] #18 sources
-        target =              [7, 7, 7, 7, 7, 7,  8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 17, 18, 15 ] #18 targets
-        value = df2.iloc[np.r_[0, 1, 2, 3, 6, 22, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 17, 18, 20], np.r_[7]].astype(int) #19 values
+        source =              [0, 1, 2, 3, 6, 22,  7, 8,  8,  8,  8,  8, 14, 8,  15, 20, 16, 16, 20  ] #18 sources
+        target =              [7, 7, 7, 7, 7, 15,  8, 9, 10, 11, 12, 13, 8, 15, 16, 16, 17, 18, 21 ] #18 targets
+        value = df2.iloc[np.r_[0, 1, 2, 3, 6, 22,  7, 9, 10, 11, 12, 13, 14, 23, 15, 24, 17, 18, 21], np.r_[7]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[7]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
         node = dict(label = label_caixa, pad=35, thickness=20)
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15, 0.15, 0.15, 0.15, 0.15, 0.30, 0.45, 0.60, 0.60, 0.60, 0.60, 0.60, 0.60,  0.65,  0.80, 0.90,  0.90, 0.80, 0.90, 0.20]
-        y = [0.00, 0.22, 0.44, 0.66, 0.88, 0.05, 0.20, 0.20, 0.45, 0.60, 0.75, 0.90, 1.15,  -0.15, 0.10, -0.10, 0.05, 0.30, -0.20, -0.20]
+        x = [0.15, 0.15, 0.15, 0.15, 0.15, 0.30, 0.45, 0.60, 0.60, 0.60, 0.60, 0.60, 0.30,  0.65,  0.80, 0.90,  0.90, 0.70, 0.85, 0.50]
+        y = [0.00, 0.22, 0.44, 0.66, 0.88, 0.05, 0.22, 0.30, 0.47, 0.60, 0.75, 0.90, 1.15,  -0.15, -0.10, -0.20, -0.05, 0.10, 0.30, -0.23]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
         # Node Colors
         color_for_nodes =['steelblue', 'steelblue', 'steelblue', 'steelblue', 'steelblue',
                           'steelblue', 'steelblue', 'blue', 'maroon', 'maroon', 'maroon', 
-                          'maroon', 'maroon', 'maroon', 'maroon', 'limegreen', 'maroon', 'maroon',
+                          'maroon', 'maroon', 'maroon', 'steelblue', 'limegreen', 'maroon', 'maroon',
                           'maroon', 'maroon', 'limegreen', 'limegreen', 'gray'
                           ]
             
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'darkgrey', 'LightSkyBlue', 'indianred', 'indianred',
-                          'indianred', 'indianred', 'indianred', 'indianred', 'Lime',
+                          'indianred', 'indianred', 'indianred', 'LightSkyBlue', 'indianred',
                           'indianred', 'Lime', 'indianred', 'indianred', 'Lime',
                           'Lime']
 
@@ -1791,8 +1906,8 @@ if choose == "Análise Individual - 2023":
         fig.update_traces(node_color = color_for_nodes,
                         link_color = color_for_links)
 
-        fig.add_annotation(dict(font=dict(color="black", size=11), x=0.04, y=1.36, xanchor='left', showarrow=False, text='<b>VENDA DE DIREITOS<br>LIGA FORTE</b>'))
-        fig.add_annotation(dict(font=dict(color="grey", size=11), x=0.09, y=1.23, showarrow=False, text=f'<b>{dfa.iat[0,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=11), x=0.37, y=1.37, xanchor='left', showarrow=False, text='<b>VENDA DE DIREITOS<br>LIGA FORTE</b>'))
+        fig.add_annotation(dict(font=dict(color="grey", size=11), x=0.435, y=1.25, showarrow=False, text=f'<b>{dfa.iat[22,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=11), x=0.02, y=1.08, xanchor='left', showarrow=False, text='<b>Direitos de<br>transmissão e<br>Premiações</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.07, y=0.93, showarrow=False, text=f'<b>{dfa.iat[0,0]}</b>'))
@@ -1809,17 +1924,17 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=11), x=0.03, y=0.12, xanchor='left', showarrow=False, text='<b>Negociação<br>de atletas</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.06, y=0.06, showarrow=False, text=f'<b>{dfa.iat[6,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.26, y=1.26, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE<br>CAIXA TOTAL</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.285, y=1.16, showarrow=False, text=f'<b>{dfa.iat[7,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.26, y=1.20, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE<br>CAIXA TOTAL</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.285, y=1.10, showarrow=False, text=f'<b>{dfa.iat[7,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.40, y=1.06, xanchor='left', showarrow=False, text='<b>SAÍDAS DE CAIXA<br>OPERACIONAIS</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.45, y=0.97, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.40, y=1.08, xanchor='left', showarrow=False, text='<b>SAÍDAS DE CAIXA<br>OPERACIONAIS</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.45, y=0.99, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.60, y=1.38, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE CAIXA<br>OPERACIONAL</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.65, y=1.29, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.60, y=1.39, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE CAIXA<br>OPERACIONAL</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.65, y=1.30, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=0.90, xanchor='left', showarrow=False, text='<b>Pessoal e<br>encargos</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.67, y=0.80, showarrow=False, text=f'<b>{dfa.iat[9,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=0.80, xanchor='left', showarrow=False, text='<b>Pessoal e<br>encargos</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.67, y=0.70, showarrow=False, text=f'<b>{dfa.iat[9,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=0.58, xanchor='left', showarrow=False, text='<b>Direitos de<br>imagem</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.68, y=0.50, showarrow=False, text=f'<b>{dfa.iat[10,0]}</b>'))
@@ -1830,26 +1945,29 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=0.21, xanchor='left', showarrow=False, text='<b>Despesas gerais<br>e administrativas</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.69, y=0.16, showarrow=False, text=f'<b>{dfa.iat[12,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=0.05, xanchor='left', showarrow=False, text='<b>Outras despesas</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.69, y=-0.0, showarrow=False, text=f'<b>{dfa.iat[13,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=0.08, xanchor='left', showarrow=False, text='<b>Outras despesas</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.69, y=0.03, showarrow=False, text=f'<b>{dfa.iat[13,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=-0.15, xanchor='left', showarrow=False, text='<b>Ajuste na Geração de<br>Caixa Operacional</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.69, y=-0.21, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.17, y=-0.14, xanchor='left', showarrow=False, text='<b>Ajuste nas Saídas de<br>Caixa Operacional</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.22, y=-0.21, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=9), x=0.735, y=1.12, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A INVESTIMENTOS</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=9), x=0.80, y=1.02, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=9), x=0.74, y=1.28, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A INVESTIMENTOS</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=9), x=0.81, y=1.19, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.92, y=1.18, xanchor='left', showarrow=False, text='<b>Compra<br>de Jogadores</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.98, y=1.08, showarrow=False, text=f'<b>{dfa.iat[17,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.91, y=1.28, xanchor='left', showarrow=False, text='<b>Compra<br>de Jogadores</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.97, y=1.18, showarrow=False, text=f'<b>{dfa.iat[17,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.92, y=1.02, xanchor='left', showarrow=False, text='<b>Compra de<br>Imobilizado</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.97, y=0.92, showarrow=False, text=f'<b>{dfa.iat[18,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.92, y=1.12, xanchor='left', showarrow=False, text='<b>Compra de<br>Imobilizado</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.97, y=1.02, showarrow=False, text=f'<b>{dfa.iat[18,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.73, y=0.67, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.80, y=0.55, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.75, y=0.97, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.82, y=0.86, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.83, y=1.38, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.91, y=1.29, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.86, y=0.74, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.94, y=0.61, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.55, y=0.99, xanchor='left', showarrow=False, text='<b>Caixa<br>Negativo</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.58, y=0.88, showarrow=False, text=f'<b>{dfa.iat[23,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -1875,7 +1993,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df.iloc[np.r_[21, 0, 4, 1:4, 7, 22], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[0:4, 6:8, 22, 26], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -1884,6 +2002,14 @@ if choose == "Análise Individual - 2023":
         # Rename the first column to 'clubs'
         dfb_transposed.index.name = 'Clubes'
         dfb = dfb_transposed
+        # Renaming Columns
+        dfb = dfb.rename(columns={"Receita c/ Publicidade e patrocínio": "Publicidade/patrocínio",
+                                  "Receita c/ Match-Day": "Match-Day",
+                                  "Receita c/ Sócio-torcedor": "Sócio-Torcedor",
+                                  "Receita c/ Negociação de atletas": "Venda de jogadores",
+                                  "Receita c/ Transmissão + Premiações": "Transmissão/Premiações",
+                                  "RECEITA RECORRENTE": "Receita Recorrente" 
+                                  })
         # Preparing the Graph
         params = list(dfb.columns)
         params = params[0:]
@@ -1955,8 +2081,8 @@ if choose == "Análise Individual - 2023":
         # Defining labels, sources and targets
 
         source =              [0, 1, 2, 6, 8, 23,  9, 16, 16,  9, 17, 17] #17 sources
-        target =              [6, 6, 6, 9, 9, 9,  16, 10, 13, 17, 18, 19] #17 targets
-        value = df.iloc[np.r_[ 0, 1, 2, 6, 8, 23, 16, 10, 13, 17, 18, 19], np.r_[9]].astype(int) #18 values
+        target =              [6, 6, 6, 9, 9, 9,  16, 10, 13, 17, 19, 18] #17 targets
+        value = df.iloc[np.r_[ 0, 1, 2, 6, 8, 23, 16, 10, 13, 17, 19, 18], np.r_[9]].astype(int) #18 values
         dfa = df.iloc[:, np.r_[9]].astype(int)
             
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -1964,8 +2090,8 @@ if choose == "Análise Individual - 2023":
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15,  0.15, 0.15, 0.30, 0.30,  0.45, 0.75,  0.75, 0.60,  0.70, 0.80, 0.30, 0.360]
-        y = [0.00, 0.30, 0.50, 0.20,  0.55,  0.30,  0.20, 0.50, 0.40, -0.15, -0.25, -0.20, -0.20]
+        x = [0.15,  0.15, 0.15, 0.30, 0.30,  0.45, 0.75,  0.75, 0.60,  0.70, 0.80, 0.80, 0.30]
+        y = [0.00, 0.30, 0.50, 0.20,  0.55,  0.30,  0.20, 0.50, 0.40, -0.15, 0.00, -0.25, -0.20]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
@@ -1973,12 +2099,13 @@ if choose == "Análise Individual - 2023":
         color_for_nodes =['steelblue', 'steelblue', 'steelblue', 'steelblue', 'steelblue', 
                           'steelblue', 'blue', 'steelblue', 'steelblue', 'limegreen', 'maroon', 
                           'maroon', 'maroon', 'maroon', 'maroon', 'maroon', 'maroon', 'limegreen', 
-                          'maroon', 'limegreen', 'limegreen', 'maroon','limegreen','gray', 'maroon'  
+                          'maroon', 'limegreen', 'limegreen', 'maroon','limegreen','gray', 'maroon',
+                          'maroon'  
                           ]
             
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'darkgray', 'indianred', 'indianred',
-                          'indianred', 'Lime', 'Lime', 'Lime']
+                          'indianred', 'Lime', 'Lime', 'indianred']
 
         fig = go.Figure(data=[go.Sankey(
                 # The following line hides our labels. They still show
@@ -2040,6 +2167,9 @@ if choose == "Análise Individual - 2023":
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.23, y=1.39, xanchor='left', showarrow=False, text='<b>VENDA DE DIREITOS<BR>LIGA FORTE</b>'))
         fig.add_annotation(dict(font=dict(color="gray", size=10), x=0.29, y=1.30, showarrow=False, text=f'<b>{dfa.iat[23,0]}</b>'))
+
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.82, y=1.10, xanchor='left', showarrow=False, text='<b>Resultado<br>Financeiro</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.86, y=1.00, showarrow=False, text=f'<b>{dfa.iat[18,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -2186,7 +2316,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: gold; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df.iloc[np.r_[21, 0, 4, 1:4, 7, 22], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[0:4, 6:8, 22, 26], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -2195,6 +2325,14 @@ if choose == "Análise Individual - 2023":
         # Rename the first column to 'clubs'
         dfb_transposed.index.name = 'Clubes'
         dfb = dfb_transposed
+        # Renaming Columns
+        dfb = dfb.rename(columns={"Receita c/ Publicidade e patrocínio": "Publicidade/patrocínio",
+                                  "Receita c/ Match-Day": "Match-Day",
+                                  "Receita c/ Sócio-torcedor": "Sócio-Torcedor",
+                                  "Receita c/ Negociação de atletas": "Venda de jogadores",
+                                  "Receita c/ Transmissão + Premiações": "Transmissão/Premiações",
+                                  "RECEITA RECORRENTE": "Receita Recorrente" 
+                                  })
         # Preparing the Graph
         params = list(dfb.columns)
         params = params[0:]
@@ -2267,7 +2405,7 @@ if choose == "Análise Individual - 2023":
 
         source =              [0, 1, 2, 3, 5, 6, 7, 8, 9,   9, 16, 16, 16, 16, 16, 16, 18, 19] #18 sources
         target =              [6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 17, 18] #18 targets
-        value = df.iloc[np.r_[0, 1, 2, 3, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 18, 19], np.r_[18]].astype(int) #18 values
+        value = df.iloc[np.r_[0, 1, 2, 3, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 17, 19], np.r_[18]].astype(int) #18 values
         dfa = df.iloc[:, np.r_[18]].astype(int)
             
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -2339,7 +2477,7 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.295, y=0.78, showarrow=False, text=f'<b>{dfa.iat[7,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=11), x=0.29, y=0.68, xanchor='left', showarrow=False, text='<b>Outras<br>receitas</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=11), x=0.30, y=0.55, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.30, y=0.55, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.40, y=1.39, xanchor='left', showarrow=False, text='<b>RECEITA<br>OPERACIONAL<BR>LÍQUIDA</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.45, y=1.23, showarrow=False, text=f'<b>{dfa.iat[9,0]}</b>'))
@@ -2402,9 +2540,9 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 3, 5, 6,  7,  7,  8,  8,   8,  8,  8, 14, 15, 20, 15, 16, 16, 16] #21 sources
-        target =              [7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13,  8, 16, 15, 21, 17, 18, 19] #21 targets
-        value = df2.iloc[np.r_[0, 1, 2, 3, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 16, 20, 21, 17, 18, 19], np.r_[18]].astype(int) #19 values
+        source =              [0, 1, 2, 3, 5, 6,  7,  7,  8,  8,   8,  8,  8, 14, 15, 20, 21, 16, 16, 16] #21 sources
+        target =              [7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13,  8, 16, 15, 16, 17, 18, 19] #21 targets
+        value = df2.iloc[np.r_[0, 1, 2, 3, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 15, 20, 21, 17, 18, 19], np.r_[18]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[18]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
         node = dict(label = label_caixa, pad=35, thickness=20)
@@ -2412,7 +2550,7 @@ if choose == "Análise Individual - 2023":
 
         # Set our X and Y co-ords 
         x = [0.15, 0.15, 0.15, 0.15, 0.15,   0.15, 0.30, 0.42, 0.55, 0.55, 0.55, 0.55,  0.55,  0.35, 0.55,  0.78, 0.92, 0.92, 0.92, 0.78, 0.78]
-        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.05, 0.35, 0.45, 0.60, 0.75, 0.90, 1.15,  0.90, -0.20, -0.10, 0.05, 0.20, 0.35, 0.50, 0.65]
+        y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.05, 0.35, 0.45, 0.60, 0.75, 0.90, 1.15,  0.90, -0.20, -0.10, 0.05, 0.20, 0.35, 0.50, 0.05]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
@@ -2420,7 +2558,7 @@ if choose == "Análise Individual - 2023":
         color_for_nodes =['steelblue', 'steelblue', 'steelblue', 'steelblue', 'steelblue', 
                           'steelblue', 'steelblue', 'blue', 'maroon', 'maroon', 'maroon', 
                           'maroon', 'maroon', 'maroon', 'blue', 'limegreen', 'maroon',
-                          'maroon', 'maroon', 'maroon', 'limegreen']
+                          'maroon', 'maroon', 'maroon', 'limegreen', 'maroon']
             
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'LightSkyBlue', 'Lime', 'LightSkyBlue',
@@ -2513,8 +2651,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.58, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
         fig.add_annotation(dict(font=dict(color="limegreen", size=10), x=0.84, y=0.52, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.41, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.84, y=0.29, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.70, y=0.92, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.79, y=0.82, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -2540,7 +2678,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df.iloc[np.r_[21, 0, 4, 1:4, 7, 22], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[0:4, 6:8, 22, 26], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -2549,6 +2687,14 @@ if choose == "Análise Individual - 2023":
         # Rename the first column to 'clubs'
         dfb_transposed.index.name = 'Clubes'
         dfb = dfb_transposed
+        # Renaming Columns
+        dfb = dfb.rename(columns={"Receita c/ Publicidade e patrocínio": "Publicidade/patrocínio",
+                                  "Receita c/ Match-Day": "Match-Day",
+                                  "Receita c/ Sócio-torcedor": "Sócio-Torcedor",
+                                  "Receita c/ Negociação de atletas": "Venda de jogadores",
+                                  "Receita c/ Transmissão + Premiações": "Transmissão/Premiações",
+                                  "RECEITA RECORRENTE": "Receita Recorrente" 
+                                  })
         # Preparing the Graph
         params = list(dfb.columns)
         params = params[0:]
@@ -8188,6 +8334,266 @@ if choose == "Análise Individual - Histórica":
 ######################################################################################################################
 ######################################################################################################################
 
+    if clube == "Botafogo":
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 21:26]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Sócio-Torcedor."
+        note_text_3 = "3. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.43, note_text_3, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 21:26]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 21:26]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 21:26]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of reds
+        cmap = plt.get_cmap('binary')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação Série A", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
     if clube == "Corinthians":
         markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
@@ -8201,7 +8607,7 @@ if choose == "Análise Individual - Histórica":
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
         # Create a colormap of greens
-        cmap = plt.get_cmap('binary')
+        cmap = plt.get_cmap('Greys')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -8264,7 +8670,7 @@ if choose == "Análise Individual - Histórica":
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
         # Create a colormap of binary
-        cmap = plt.get_cmap('binary')
+        cmap = plt.get_cmap('Greys')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -8329,7 +8735,7 @@ if choose == "Análise Individual - Histórica":
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
         # Create a colormap of binary
-        cmap = plt.get_cmap('binary')
+        cmap = plt.get_cmap('Greys')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -8392,7 +8798,7 @@ if choose == "Análise Individual - Histórica":
         selected_data.columns = [2023, 2022, 2021, 2020, 2019]
 
         # Create a colormap of binary
-        cmap = plt.get_cmap('binary')
+        cmap = plt.get_cmap('Greys')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -8911,6 +9317,274 @@ if choose == "Análise Individual - Histórica":
 
         # Create a colormap of Blues
         cmap = plt.get_cmap('Blues')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.95, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.2f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Receita com Premiação / Folha do Futebol",
+                         "Folha do futebol / Pontuação Série A", 
+                         "Dívida / Rec Oper Líquida", 
+                         "Folha futebol + Compra jogadores / Rec Oper Líquida"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em % da Folha do futebol, milhões/ponto conquistado,"
+        note_text_2 = "e % da Rec Operacional Líquida nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+######################################################################################################################
+
+    if clube == "Cuiabá":
+        markdown_1 = f"<div style='text-align:center;  color: gold; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Receitas e Despesas</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em R$ milhões, em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[1:7, 8], 41:46]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of greens
+        cmap = plt.get_cmap('Wistia')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=14)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Transmissão + Premiação", "Publicidade e patrocínio", "Match-Day", 
+                 "Sócio-torcedor", "Premiações", "Licenciamento da marca", "Negociação de atletas"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Receitas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube informa a Receita de Premiação em conjunto com a Receita de Transmissão."
+        note_text_2 = "2. O clube não informa com clareza a Receita com Sócio-Torcedor."
+        note_text_3 = "3. O clube não informa com clareza a Receita com Licenciamento da Marca."
+        note_text_4 = "4. O clube não informa com clareza a Receita com Negociação de Atletas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.43, note_text_3, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.49, note_text_4, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[10, 13:15], 41:46]
+        selected_data = selected_data.round(0)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Wistia')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        # Adding value labels on top of each bar
+        for p in ax.patches:
+            # Format the height as integer
+            height = int(p.get_height())  # Convert to integer to avoid decimals
+            ax.annotate(f'{height}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Folha do futebol (Pessoal + Imagem)", "Aquisições de atletas", "Gastos com a Base"]
+        
+        # Function to break labels into two lines if longer than a given number of characters
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Split the label by spaces and attempt to divide into two roughly equal parts
+                    words = label.split()
+                    midpoint = len(words) // 2
+                    label = ' '.join(words[:midpoint]) + '\n' + ' '.join(words[midpoint:])
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=19, rotation=0)
+        ax.set_title('Despesas', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        note_text = "Notas:"
+        note_text_1 = "1. O clube não informa com clareza a Aquisição de Atletas."
+        note_text_2 = "2. O clube não informa com clareza os Gastos com a Base."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_1, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.37, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+######################################################################################################################
+
+        markdown_1 = f"<div style='text-align:center;  color: gold; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
+        st.markdown("<h4 style='text-align: center;  color: black;'>Histórico de Índices</b></h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center;  color: black;'>(em moeda constante)<br></b></h5>", unsafe_allow_html=True)
+        st.markdown(markdown_1, unsafe_allow_html=True)
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[22:25, 27], 41:46]
+        selected_data = selected_data.round(1)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Wistia')
+        colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
+
+        # Creating a figure and a set of subplots
+        fig, ax = plt.subplots(figsize=(15, 10))
+
+        # Plotting using ax
+        selected_data.plot(kind='bar', ax=ax, width=0.9, color=colors)
+
+        for p in ax.patches:
+            # Format the height with one decimal place
+            height = p.get_height()
+            ax.annotate(f'{height:.1f}', (p.get_x() + p.get_width() / 2., height),
+                        ha='center', va='center', xytext=(0, 10), textcoords='offset points', fontsize=16)
+
+        # Setting the labels and title using ax methods
+        custom_labels = ["Rec Oper Líquida / Base Torcedores", 
+                         "Rec Venda Jogadores / Gastos Base", 
+                         "Rec Venda Jogadores / Pontuação Série A",
+                         "Rec Oper Líquida / Pontuação Série A"]
+        
+        def adjust_labels(labels, max_len=18):
+            adjusted_labels = []
+            for label in labels:
+                if len(label) > max_len:
+                    # Find the index of the slash in the label
+                    slash_index = label.find('/')
+                    if slash_index != -1:
+                        # Split the label right after the slash and keep the slash at the end of the first line
+                        label = label[:slash_index + 1] + '\n' + label[slash_index + 1:]
+                adjusted_labels.append(label)
+            return adjusted_labels
+
+        # Apply the function to custom_labels
+        adjusted_custom_labels = adjust_labels(custom_labels)
+
+        ax.set_xticklabels(adjusted_custom_labels, fontsize=16, rotation=0)
+        #ax.set_title('Índices', fontsize=24, fontweight="bold")
+        ax.tick_params(axis='y', labelsize=16)
+        ax.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=5, fontsize=18, frameon=False)
+        #ax.set_ylabel('Despesas (em R$ milhões, em moeda constante)', fontsize=18)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        # Adding a note below the graph using the axes
+        note_text = "Nota: As variáveis estão, respectivamente, em Reais/torcedor, Proporção de gastos na base,"
+        note_text_2 = "e milhões/ponto conquistado nas duas últimas."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
+        # Adjust layout and show plot
+        fig.tight_layout()
+        st.pyplot(fig)        
+
+######################################################################################################################
+
+        st.markdown("---")
+
+        # Selecting the rows 1 to 6 and columns 76 to 81
+        selected_data = df3.iloc[np.r_[25:27, 31, 33], 41:46]
+        selected_data = selected_data.round(2)
+        selected_data.columns = [2023, 2022, 2021, 2020, 2019]
+
+        # Create a colormap of Blues
+        cmap = plt.get_cmap('Wistia')
         colors = cmap(np.linspace(1, 0.3, num=len(selected_data.columns)))
 
         # Creating a figure and a set of subplots
@@ -11275,6 +11949,22 @@ if choose == "Análise Individual - Histórica":
         st.markdown(markdown_1, unsafe_allow_html=True)
         st.markdown("---")
 
+        def main():
+            # URL of the image (make sure it's the raw version if it's hosted on GitHub)
+            image_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/975782cba0c76542a7d5a3c8287c3eda0ad132b3/vasco_4.jpg'
+
+            # Fetch the image
+            response = requests.get(image_url)
+            image = Image.open(BytesIO(response.content))
+
+            # Display the image
+            col1, col2, col3 = st.columns([1,2,1])
+            with col2:  # Use the middle column to display the image
+                st.image(image, caption='', use_column_width=True)
+
+        if __name__ == "__main__":
+            main()        
+
         # Selecting the rows 1 to 6 and columns 76 to 81
         selected_data = df3.iloc[np.r_[28, 2:7, 8], 91:96]
         selected_data = selected_data.round(0)
@@ -11514,6 +12204,25 @@ if choose == "Análise Individual - Histórica":
         # Adjust layout and show plot
         fig.tight_layout()
         st.pyplot(fig)        
+
+
+        def main():
+            # URL of the image (make sure it's the raw version if it's hosted on GitHub)
+            image_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/975782cba0c76542a7d5a3c8287c3eda0ad132b3/vasco_2.jpg'
+
+            # Fetch the image
+            response = requests.get(image_url)
+            image = Image.open(BytesIO(response.content))
+
+            # Display the image
+            col1, col2, col3 = st.columns([1,2,1])
+            with col2:  # Use the middle column to display the image
+                st.image(image, caption='', use_column_width=True)
+
+        if __name__ == "__main__":
+            main()        
+
+
 
 ######################################################################################################################
 ######################################################################################################################
