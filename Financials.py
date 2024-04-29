@@ -459,6 +459,7 @@ if choose == "Análise Individual - 2023":
 #############################################################################################################################################
 
         #Plotar Gráfico Alternativo
+        fontsize=28
         # Player Comparison Data
         markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
@@ -512,13 +513,13 @@ if choose == "Análise Individual - 2023":
         #Plotting Data
         title = dict(
             title_name = "Receitas e Despesas",
-            title_color = 'limegreen',
+            title_color = '#B6282F',
             subtitle_name = "(R$ milhões)",
-            subtitle_color = 'limegreen',
+            subtitle_color = '#B6282F',
             title_name_2 = 'Média da Liga',
-            title_color_2 = 'indianred',
+            title_color_2 = '#344D94',
             subtitle_name_2 = "(R$ milhões)",
-            subtitle_color_2 = 'indianred',
+            subtitle_color_2 = '#344D94',
             title_fontsize = 18,
         ) 
 
@@ -529,7 +530,7 @@ if choose == "Análise Individual - 2023":
         radar=Radar(fontfamily='Cursive', range_fontsize=14)
         radar=Radar(fontfamily='Cursive', label_fontsize=14)
 
-        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['limegreen', 'indianred'], dpi=600, alphas=[.5,.5], title=title, compare=True)
+        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#B6282F', '#344D94'], dpi=600, alphas=[.6,.5], title=title, compare=True)
         st.pyplot(fig)
 
 
@@ -823,6 +824,7 @@ if choose == "Análise Individual - 2023":
 #############################################################################################################################################
 
         #Plotar Gráfico Alternativo
+        fontsize=28
         # Player Comparison Data
         markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
@@ -877,13 +879,13 @@ if choose == "Análise Individual - 2023":
         #Plotting Data
         title = dict(
             title_name = "Receitas e Despesas",
-            title_color = 'indianred',
+            title_color = '#B6282F',
             subtitle_name = "(R$ milhões)",
-            subtitle_color = 'indianred',
+            subtitle_color = '#B6282F',
             title_name_2 = 'Média da Liga',
-            title_color_2 = 'limegreen',
+            title_color_2 = '#344D94',
             subtitle_name_2 = "(R$ milhões)",
-            subtitle_color_2 = 'limegreen',
+            subtitle_color_2 = '#344D94',
             title_fontsize = 18,
         ) 
 
@@ -894,7 +896,7 @@ if choose == "Análise Individual - 2023":
         radar=Radar(fontfamily='Cursive', range_fontsize=14)
         radar=Radar(fontfamily='Cursive', label_fontsize=14)
 
-        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['indianred', 'limegreen'], dpi=600, alphas=[.5,.5], title=title, compare=True)
+        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#B6282F', '#344D94'], dpi=600, alphas=[.6,.5], title=title, compare=True)
         st.pyplot(fig)
 
 ###############################################################################################################################################
@@ -1272,6 +1274,7 @@ if choose == "Análise Individual - 2023":
 #############################################################################################################################################
 
         #Plotar Gráfico Alternativo
+        fontsize=28
         # Player Comparison Data
         markdown_1 = f"<div style='text-align:center;  color: blue; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
@@ -1328,13 +1331,13 @@ if choose == "Análise Individual - 2023":
         #Plotting Data
         title = dict(
             title_name = clube,
-            title_color = 'steelblue',
+            title_color = '#B6282F',
             subtitle_name = "(R$ milhões)",
-            subtitle_color = 'steelblue',
+            subtitle_color = '#B6282F',
             title_name_2 = 'Média da Liga',
-            title_color_2 = 'indianred',
+            title_color_2 = '#344D94',
             subtitle_name_2 = "(R$ milhões)",
-            subtitle_color_2 = 'indianred',
+            subtitle_color_2 = '#344D94',
             title_fontsize = 18,
         ) 
 
@@ -1345,7 +1348,7 @@ if choose == "Análise Individual - 2023":
         radar=Radar(fontfamily='Cursive', range_fontsize=14)
         radar=Radar(fontfamily='Cursive', label_fontsize=14)
 
-        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['steelblue', 'indianred'], dpi=600, alphas=[.6,.5], title=title, compare=True)
+        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#B6282F', '#344D94'], dpi=600, alphas=[.6,.5], title=title, compare=True)
         #fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#7eb6e0', '#f77b72'], dpi=600, alphas=[.8,.6], title=title, compare=True)
         st.pyplot(fig)
 
@@ -1627,6 +1630,7 @@ if choose == "Análise Individual - 2023":
 #############################################################################################################################################
 
         #Plotar Gráfico Alternativo
+        fontsize=28
         # Player Comparison Data
         markdown_1 = f"<div style='text-align:center;  color: grey; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
@@ -1682,13 +1686,13 @@ if choose == "Análise Individual - 2023":
         #Plotting Data
         title = dict(
             title_name = clube,
-            title_color = 'grey',
+            title_color = '#B6282F',
             subtitle_name = "(R$ milhões)",
-            subtitle_color = 'grey',
+            subtitle_color = '#B6282F',
             title_name_2 = 'Média da Liga',
-            title_color_2 = 'indianred',
+            title_color_2 = '#344D94',
             subtitle_name_2 = "(R$ milhões)",
-            subtitle_color_2 = 'indianred',
+            subtitle_color_2 = '#344D94',
             title_fontsize = 18,
         ) 
 
@@ -1699,7 +1703,7 @@ if choose == "Análise Individual - 2023":
         radar=Radar(fontfamily='Cursive', range_fontsize=14)
         radar=Radar(fontfamily='Cursive', label_fontsize=14)
 
-        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['grey', 'indianred'], dpi=600, alphas=[.7,.5], title=title, compare=True)
+        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#B6282F', '#344D94'], dpi=600, alphas=[.6,.5], title=title, compare=True)
         #fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#7eb6e0', '#f77b72'], dpi=600, alphas=[.8,.6], title=title, compare=True)
         st.pyplot(fig)
 
@@ -1997,6 +2001,7 @@ if choose == "Análise Individual - 2023":
 #############################################################################################################################################
 
         #Plotar Gráfico Alternativo
+        fontsize=28
         # Player Comparison Data
         markdown_1 = f"<div style='text-align:center;  color: green; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
@@ -2052,13 +2057,13 @@ if choose == "Análise Individual - 2023":
         #Plotting Data
         title = dict(
             title_name = clube,
-            title_color = 'green',
+            title_color = '#B6282F',
             subtitle_name = "(R$ milhões)",
-            subtitle_color = 'green',
+            subtitle_color = '#B6282F',
             title_name_2 = 'Média da Liga',
-            title_color_2 = 'indianred',
+            title_color_2 = '#344D94',
             subtitle_name_2 = "(R$ milhões)",
-            subtitle_color_2 = 'indianred',
+            subtitle_color_2 = '#344D94',
             title_fontsize = 18,
         ) 
 
@@ -2069,7 +2074,7 @@ if choose == "Análise Individual - 2023":
         radar=Radar(fontfamily='Cursive', range_fontsize=14)
         radar=Radar(fontfamily='Cursive', label_fontsize=14)
 
-        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['green', 'indianred'], dpi=600, alphas=[.7,.5], title=title, compare=True)
+        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#B6282F', '#344D94'], dpi=600, alphas=[.6,.5], title=title, compare=True)
         #fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#7eb6e0', '#f77b72'], dpi=600, alphas=[.8,.6], title=title, compare=True)
         st.pyplot(fig)
 
@@ -2320,6 +2325,7 @@ if choose == "Análise Individual - 2023":
 #############################################################################################################################################
 
         #Plotar Gráfico Alternativo
+        fontsize=28
         # Player Comparison Data
         markdown_1 = f"<div style='text-align:center;  color: gold; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
@@ -2375,13 +2381,13 @@ if choose == "Análise Individual - 2023":
         #Plotting Data
         title = dict(
             title_name = clube,
-            title_color = 'gold',
+            title_color = '#B6282F',
             subtitle_name = "(R$ milhões)",
-            subtitle_color = 'gold',
+            subtitle_color = '#B6282F',
             title_name_2 = 'Média da Liga',
-            title_color_2 = 'indianred',
+            title_color_2 = '#344D94',
             subtitle_name_2 = "(R$ milhões)",
-            subtitle_color_2 = 'indianred',
+            subtitle_color_2 = '#344D94',
             title_fontsize = 18,
         ) 
 
@@ -2392,7 +2398,7 @@ if choose == "Análise Individual - 2023":
         radar=Radar(fontfamily='Cursive', range_fontsize=14)
         radar=Radar(fontfamily='Cursive', label_fontsize=14)
 
-        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['gold', 'indianred'], dpi=600, alphas=[.7,.5], title=title, compare=True)
+        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#B6282F', '#344D94'], dpi=600, alphas=[.6,.5], title=title, compare=True)
         #fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#7eb6e0', '#f77b72'], dpi=600, alphas=[.8,.6], title=title, compare=True)
         st.pyplot(fig)
 
@@ -2682,6 +2688,7 @@ if choose == "Análise Individual - 2023":
 #############################################################################################################################################
 
         #Plotar Gráfico Alternativo
+        fontsize=28
         # Player Comparison Data
         markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
@@ -2737,13 +2744,13 @@ if choose == "Análise Individual - 2023":
         #Plotting Data
         title = dict(
             title_name = clube,
-            title_color = 'indianred',
+            title_color = '#B6282F',
             subtitle_name = "(R$ milhões)",
-            subtitle_color = 'indianred',
+            subtitle_color = '#B6282F',
             title_name_2 = 'Média da Liga',
-            title_color_2 = 'steelblue',
+            title_color_2 = '#344D94',
             subtitle_name_2 = "(R$ milhões)",
-            subtitle_color_2 = 'steelblue',
+            subtitle_color_2 = '#344D94',
             title_fontsize = 18,
         ) 
 
@@ -2754,7 +2761,7 @@ if choose == "Análise Individual - 2023":
         radar=Radar(fontfamily='Cursive', range_fontsize=14)
         radar=Radar(fontfamily='Cursive', label_fontsize=14)
 
-        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['indianred', 'steelblue'], dpi=600, alphas=[.6,.5], title=title, compare=True)
+        fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#B6282F', '#344D94'], dpi=600, alphas=[.6,.5], title=title, compare=True)
         #fig,ax = radar.plot_radar(ranges=ranges,params=params,values=values,radar_color=['#7eb6e0', '#f77b72'], dpi=600, alphas=[.8,.6], title=title, compare=True)
         st.pyplot(fig)
 
@@ -12243,7 +12250,31 @@ if choose == "Análise Individual - Histórica":
 
 elif choose == "Índice de Transparência":
     st.markdown("<h4 style='text-align: center;  color: black;'>Índice de Transparência das<br> Demonstrações Financeiras - 2023</b></h4>", unsafe_allow_html=True)
-    st.markdown("---")
+    #st.markdown("---")
+
+    def main():
+        royal_style = """
+        <style>
+            .royal-text {
+                font-family: 'Times New Roman', Times, serif; /* Classic, formal font */
+                font-size: 18px; /* Larger text size */
+                color: #000080; /* Royal blue color */
+                text-align: center; /* Centered text */
+                margin: 18px; /* Adds space around the text */
+            }
+        </style>
+        """
+
+        text = """Inspirado nos trabalhos de Capelo, Grafietti, Kessel e Salomão (2021), Horvath e Vaško (2012) e Antunes, De Moraes e Grapiúna (2023)."""
+
+        # Inject HTML with style
+        st.markdown(royal_style, unsafe_allow_html=True)
+
+        # Display styled text
+        st.markdown(f'<div class="royal-text">{text}</div>', unsafe_allow_html=True)
+
+    if __name__ == "__main__":
+        main()    
 
     tópico = df4.iloc[0:3, 1:].transpose()
 
