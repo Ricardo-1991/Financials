@@ -182,9 +182,9 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,   9, 16, 16, 16, 16, 14, 16, 17, 17] #19 sources
-        target = [6, 6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 16, 15, 18, 19] #19 targets
-        value = df.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 16, 10, 14, 12, 13, 14, 15, 18, 19], np.r_[16]].astype(int) #19 values
+        source = [            0, 1, 2, 3, 4, 5, 6, 7, 8,  9,  9, 16, 16, 16, 16, 16, 16, 17, 17] #19 sources
+        target = [            6, 6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 18, 19] #19 targets
+        value = df.iloc[np.r_[0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 18, 19], np.r_[16]].astype(int) #19 values
         dfa = df.iloc[:, np.r_[16]].astype(int)
             
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -419,7 +419,7 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.62, y=-0.2, showarrow=False, text=f'<b>{dfa.iat[13,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.23, y=0.12, xanchor='left', showarrow=False, text='<b>Ajuste na Geração de<br>Caixa Operacional</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.29, y=0.06, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.29, y=0.06, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.725, y=1.32, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A INVESTIMENTOS</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.795, y=1.22, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
@@ -827,7 +827,7 @@ if choose == "Análise Individual - 2023":
         markdown_1 = f"<div style='text-align:center;  color: red; font-weight: bold; font-size:{fontsize}px'>{clube:}</div>"
         st.markdown("<h4 style='text-align: center;'>Comparativo com a Média da Liga</h4>", unsafe_allow_html=True)
         st.markdown(markdown_1, unsafe_allow_html=True)
-        dfb = df1.iloc[np.r_[1:5, 6:8, 22, 26, 47], np.r_[0:21]]
+        dfb = df1.iloc[np.r_[47, 1:5, 6:8, 22, 26], np.r_[0:21]]
         dfb_transposed = dfb.T
         # Set the first row as the new header
         dfb_transposed.columns = dfb_transposed.iloc[0]
@@ -910,24 +910,32 @@ if choose == "Análise Individual - 2023":
         st.markdown("---")
 
         def main():
-            # URL of the image (make sure it's the raw version if it's hosted on GitHub)
-            image_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/975782cba0c76542a7d5a3c8287c3eda0ad132b3/vasco_1.png'
+            royal_style = """
+            <style>
+                .royal-text {
+                    font-family: 'Times New Roman', Times, serif; /* Classic, formal font */
+                    font-size: 22px; /* Larger text size */
+                    color: #000080; /* Royal blue color */
+                    text-align: center; /* Centered text */
+                    margin: 20px; /* Adds space around the text */
+                }
+            </style>
+            """
 
-            # Fetch the image
-            response = requests.get(image_url)
-            image = Image.open(BytesIO(response.content))
+            text = """
+            "São esses doze jogadores, jovens, quasi todos brasileiros, no começo de sua carreira, e o acto publico que os pode macular, nunca será praticado com a solidariedade dos que dirigem a casa que os acolheu, nem sob o pavilhão que elles com tanta galhardia cobriram de glorias. Nestes termos, sentimos ter que comunicar a V. Exa. que desistimos de fazer parte da A.M.E.A."
+            """
+            text2 = """
+            José Augusto Prestes, 7 de abril de 1924 
+            """
+            # Inject HTML with style
+            st.markdown(royal_style, unsafe_allow_html=True)
 
-            # Display the image
-            col1, col2, col3 = st.columns([1,2,1])
-            with col2:  # Use the middle column to display the image
-                st.image(image, caption='', use_column_width=True)
+            # Display styled text
+            st.markdown(f'<div class="royal-text">{text}<br>{text2}</div>', unsafe_allow_html=True)
 
         if __name__ == "__main__":
-            main()        
-
-
-
-
+            main()
 
 
 
@@ -1381,8 +1389,8 @@ if choose == "Análise Individual - 2023":
         color_for_links =['LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue',
                           'LightSkyBlue', 'LightSkyBlue', 'LightSkyBlue', 'indianred',
                           'indianred', 'indianred', 'indianred', 'indianred',
-                          'indianred', 'indianred', 'Lime', 'indianred', 'indianred',
-                          'indianred']
+                          'indianred', 'indianred', 'Lime', 'indianred', 'Lime'
+                          ]
 
         fig = go.Figure(data=[go.Sankey(
                 # The following line hides our labels. They still show
@@ -1461,7 +1469,7 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.76, y=1.28, showarrow=False, text=f'<b>{dfa.iat[18,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.82, y=1.30, xanchor='left', showarrow=False, text='<b>RESULTADO</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.86, y=1.25, showarrow=False, text=f'<b>{dfa.iat[19,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="Limegreen", size=10), x=0.86, y=1.25, showarrow=False, text=f'<b>{dfa.iat[19,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -1491,8 +1499,8 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 5, 6, 7, 8,  8,  8,  8,  8,  8, 7,  15,  15, 16, 16, 21  ] #18 sources
-        target =              [7, 7, 7, 7, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 17, 18, 20 ] #18 targets
+        source =              [0, 1, 2, 5, 6, 7, 8,  8,  8,  8,  8, 14, 7,  15,  15, 16, 16, 21  ] #18 sources
+        target =              [7, 7, 7, 7, 7, 8, 9, 10, 11, 12, 13,  8, 15, 16, 20, 17, 18, 20 ] #18 targets
         value = df2.iloc[np.r_[0, 1, 2, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23, 17, 18, 21], np.r_[17]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[17]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
@@ -2200,16 +2208,16 @@ if choose == "Análise Individual - 2023":
         # Defining labels, sources and targets
 
         source =              [0, 1, 2,  22,    7, 8,  8, 14,   7,  15, 16, 16, 15] #18 sources
-        target =              [7, 7, 7,   7,    8, 9, 12,  7,  15,  16, 17, 18, 21] #18 targets
-        value = df2.iloc[np.r_[0, 1, 2,  22,    8, 9, 12, 14,  15,  16, 17, 18, 21], np.r_[9]].astype(int) #19 values
+        target =              [7, 7, 7,  15,    8, 9, 12,  7,  15,  16, 17, 18, 21] #18 targets
+        value = df2.iloc[np.r_[0, 1, 2,  22,    8, 9, 12, 14,  23,  16, 17, 18, 21], np.r_[9]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[9]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
         node = dict(label = label_caixa, pad=35, thickness=20)
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15, 0.15, 0.15, 0.30, 0.45, 0.60, 0.60, 0.15,  0.55,  0.70,  0.80,  0.80,  0.80, 0.20,  0.85, 0.90, 0.90, 0.90, 0.90]
-        y = [0.20, 0.40, 0.60, 0.20, 0.40, 0.20, 0.60, 0.80, -0.14, -0.17, -0.20,  -0.05, 0.10, -0.20, 0.05, -0.20, -0.20, -0.20, 0.50]
+        x = [0.15, 0.15, 0.15, 0.30, 0.45, 0.60, 0.60, 0.15,  0.55,  0.70,  0.80,  0.80,  0.80, 0.45,  0.85, 0.90, 0.90, 0.90, 0.90]
+        y = [0.20, 0.40, 0.60, 0.20, 0.40, 0.20, 0.60, 0.80, -0.14, -0.17, -0.20,  -0.05, 0.10, -0.23, 0.05, -0.20, -0.20, -0.20, 0.50]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
 
@@ -2250,8 +2258,8 @@ if choose == "Análise Individual - 2023":
         fig.update_traces(node_color = color_for_nodes,
                         link_color = color_for_links)
 
-        fig.add_annotation(dict(font=dict(color="black", size=11), x=0.06, y=1.36, xanchor='left', showarrow=False, text='<b>VENDA DE DIREITOS<br>LIGA FORTE</b>'))
-        fig.add_annotation(dict(font=dict(color="grey", size=11), x=0.12, y=1.23, showarrow=False, text=f'<b>{dfa.iat[22,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=11), x=0.305, y=1.36, xanchor='left', showarrow=False, text='<b>VENDA DE DIREITOS<br>LIGA FORTE</b>'))
+        fig.add_annotation(dict(font=dict(color="grey", size=11), x=0.38, y=1.25, showarrow=False, text=f'<b>{dfa.iat[22,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=11), x=0.03, y=0.91, xanchor='left', showarrow=False, text='<b>Direitos de<br>transmissão e<br>Premiações</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=11), x=0.07, y=0.75, showarrow=False, text=f'<b>{dfa.iat[0,0]}</b>'))
@@ -2265,13 +2273,13 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=11), x=0.08, y=0.00, xanchor='left', showarrow=False, text='<b>Ajuste na Geração de<br>Caixa Operacional</b>'))
         fig.add_annotation(dict(font=dict(color="green", size=11), x=0.14, y=-0.06, showarrow=False, text=f'<b>{dfa.iat[14,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.26, y=1.26, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE<br>CAIXA TOTAL</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.285, y=1.16, showarrow=False, text=f'<b>{dfa.iat[7,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.26, y=1.17, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE<br>CAIXA TOTAL</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.285, y=1.08, showarrow=False, text=f'<b>{dfa.iat[7,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.40, y=0.95, xanchor='left', showarrow=False, text='<b>SAÍDAS DE CAIXA<br>OPERACIONAIS</b>'))
         fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.45, y=0.85, showarrow=False, text=f'<b>{dfa.iat[8,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.50, y=1.38, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE CAIXA<br>OPERACIONAL</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.49, y=1.38, xanchor='left', showarrow=False, text='<b>GERAÇÃO DE CAIXA<br>OPERACIONAL</b>'))
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.55, y=1.29, showarrow=False, text=f'<b>{dfa.iat[15,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.63, y=0.90, xanchor='left', showarrow=False, text='<b>Pessoal e<br>encargos</b>'))
@@ -2290,7 +2298,7 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.71, y=1.30, showarrow=False, text=f'<b>{dfa.iat[16,0]}</b>'))
 
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.83, y=0.97, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
-        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.91, y=0.89, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="steelblue", size=10), x=0.91, y=0.88, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -2403,8 +2411,8 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 3, 5, 6, 7, 8, 9,   9, 16, 16, 16, 16, 16, 16, 18, 19] #18 sources
-        target =              [6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 17, 18] #18 targets
+        source =              [0, 1, 2, 3, 5, 6, 7, 8, 9,   9, 16, 16, 16, 16, 16, 16, 17, 19] #18 sources
+        target =              [6, 6, 6, 6, 6, 9, 9, 9, 17, 16, 10, 11, 12, 13, 14, 15, 18, 18] #18 targets
         value = df.iloc[np.r_[0, 1, 2, 3, 5, 6, 7, 8, 17, 16, 10, 11, 12, 13, 14, 15, 17, 19], np.r_[18]].astype(int) #18 values
         dfa = df.iloc[:, np.r_[18]].astype(int)
             
@@ -2540,16 +2548,16 @@ if choose == "Análise Individual - 2023":
 
         # Defining labels, sources and targets
 
-        source =              [0, 1, 2, 3, 5, 6,  7,  7,  8,  8,   8,  8,  8, 14, 15, 20, 21, 16, 16, 16] #21 sources
-        target =              [7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13,  8, 16, 15, 16, 17, 18, 19] #21 targets
-        value = df2.iloc[np.r_[0, 1, 2, 3, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 15, 20, 21, 17, 18, 19], np.r_[18]].astype(int) #19 values
+        source =              [0, 1, 2, 3, 5, 6,  7,  7,  8,  8,   8,  8,  8, 14, 15, 15, 21, 16, 16, 16] #21 sources
+        target =              [7, 7, 7, 7, 7, 7, 15,  8,  9, 10,  11, 12, 13,  8, 16, 20, 16, 17, 18, 19] #21 targets
+        value = df2.iloc[np.r_[0, 1, 2, 3, 5, 6, 15,  8,  9, 10,  11, 12, 13, 14, 23, 20, 21, 17, 18, 19], np.r_[18]].astype(int) #19 values
         dfa = df2.iloc[:, np.r_[18]].astype(int)
         link = dict(source=source, target=target, value=value, color=color_link)
         node = dict(label = label_caixa, pad=35, thickness=20)
         data = go.Sankey(link=link, node=node)
 
         # Set our X and Y co-ords 
-        x = [0.15, 0.15, 0.15, 0.15, 0.15,   0.15, 0.30, 0.42, 0.55, 0.55, 0.55, 0.55,  0.55,  0.35, 0.55,  0.78, 0.92, 0.92, 0.92, 0.78, 0.78]
+        x = [0.15, 0.15, 0.15, 0.15, 0.15,   0.15, 0.30, 0.42, 0.55, 0.55, 0.55, 0.55,  0.55,  0.35, 0.55,  0.78, 0.92, 0.92, 0.92, 0.78, 0.68]
         y = [-0.22, -0.00, 0.22, 0.44, 0.66, 0.88, -0.05, 0.35, 0.45, 0.60, 0.75, 0.90, 1.15,  0.90, -0.20, -0.10, 0.05, 0.20, 0.35, 0.50, 0.05]
         x = [.001 if v==0 else .999 if v==1 else v for v in x]
         y = [.001 if v==0 else .999 if v==1 else v for v in y]
@@ -2651,8 +2659,8 @@ if choose == "Análise Individual - 2023":
         fig.add_annotation(dict(font=dict(color="black", size=10), x=0.77, y=0.58, xanchor='left', showarrow=False, text='<b>CAIXA DESTINADO<br>A FINANCIAMENTOS</b>'))
         fig.add_annotation(dict(font=dict(color="limegreen", size=10), x=0.84, y=0.52, showarrow=False, text=f'<b>{dfa.iat[20,0]}</b>'))
 
-        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.70, y=0.92, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
-        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.79, y=0.82, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
+        fig.add_annotation(dict(font=dict(color="black", size=10), x=0.68, y=0.97, xanchor='left', showarrow=False, text='<b>AUMENTO/<br>DIMINUIÇÃO DE CAIXA</b>'))
+        fig.add_annotation(dict(font=dict(color="indianred", size=10), x=0.77, y=0.87, showarrow=False, text=f'<b>{dfa.iat[21,0]}</b>'))
 
         fig.add_layout_image(
             dict(
@@ -11746,6 +11754,11 @@ if choose == "Análise Individual - Histórica":
         ax.set_ylabel('Receitas (em R$ milhões, em moeda constante)', fontsize=18)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+        note_text = "Nota: Em 2023, o São Paulo informou a Receita c/ Direitos de Transmissão em conjunto com a"
+        note_text_2 = "Receita c/ Premiações."
+        ax.text(0, -0.25, note_text, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+        ax.text(0, -0.31, note_text_2, transform=ax.transAxes, ha="left", fontsize=18, color="black")
+
 
         # Adjust layout and show plot
         fig.tight_layout()
@@ -12205,10 +12218,9 @@ if choose == "Análise Individual - Histórica":
         fig.tight_layout()
         st.pyplot(fig)        
 
-
         def main():
             # URL of the image (make sure it's the raw version if it's hosted on GitHub)
-            image_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/975782cba0c76542a7d5a3c8287c3eda0ad132b3/vasco_2.jpg'
+            image_url = 'https://raw.githubusercontent.com/JAmerico1898/Financials/975782cba0c76542a7d5a3c8287c3eda0ad132b3/vasco_1.png'
 
             # Fetch the image
             response = requests.get(image_url)
@@ -12318,15 +12330,31 @@ elif choose == "Índice de Transparência":
                         ('border-width', '0px 0px 2px 0px'),
                         ('border-color', 'black')]
             }, {
+                'selector': 'thead th:not(:first-child)',
+                'props': [('text-align', 'center')]  # Centering all headers except the first
+            }, {
+                'selector': 'thead th:last-child',
+                'props': [('color', 'red')]  # Make last column header red
+            }, {
                 'selector': 'td',
                 'props': [('border-style', 'solid'),
                         ('border-width', '0px 0px 1px 0px'),
                         ('border-color', 'black'),
                         ('text-align', 'center')]
+            }, {
+                'selector': 'td:last-child',
+                'props': [('font-weight', 'bold'),
+                        ('color', 'red')]  # Make last column data bold and red
+            }, {
+                'selector': 'th',
+                'props': [('border-style', 'solid'),
+                        ('border-width', '0px 0px 1px 0px'),
+                        ('border-color', 'black'),
+                        ('text-align', 'left')]
             }]
         ).set_properties(**{
             'padding': '8px',
-            'text-align': 'center'
+#            'text-align': 'center'
             
         })
 
