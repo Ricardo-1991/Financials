@@ -13,6 +13,11 @@ import urllib.request
 from soccerplots.radar_chart import Radar
 import matplotlib.colors as mcolors
 
+st.set_page_config(
+    layout="centered",
+    initial_sidebar_state="expanded",
+    #menu_items={"base": "light"}
+)
 
 # Setup our colours
 color_link = ['#000000', '#FFFF00', '#1CE6FF', '#FF34FF', '#FF4A46',
